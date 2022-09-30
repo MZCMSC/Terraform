@@ -1,6 +1,6 @@
 # Terraform
 
-### MZC MSC Terraform document & code
+### MSC Terraform document & code
 
 ---
 
