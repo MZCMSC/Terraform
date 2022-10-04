@@ -32,6 +32,7 @@
 - [Modules](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Modules/README.md)
 - [State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/README.md)
 - [Backends](https://github.com/MZCMSC/Terraform/blob/main/DOCS/07_Backends/README.md)
+- [Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/README.md)
 
 ---
 
