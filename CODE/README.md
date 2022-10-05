@@ -73,24 +73,30 @@
 
         ```
         [실행창]
+
           cmd.exe
         ```
 
         ```
         [명령창]
+
           C:\ choco install terraform [설치 버전
         ```
 
     - **MAC OS**
-      - **Homebrew _(설치 되어 있다면 Skip)_**
+      - **[설치 파일 다운로드 및 설치](https://www.terraform.io/downloads) _(Link)_**
+        >
       - **패키지 매니저 사용 설치**
-        ```
-          $ brew tap hashicorp/tap
-          $ brew install hashicorp/tap/terraform
-        ```
+        - **Homebrew _(설치 되어 있다면 Skip)_**
+          ```
+            $ brew tap hashicorp/tap
+            $ brew install hashicorp/tap/terraform
+          ```
 
   - **AWS CLI 설치 및 credentials(AK/SK) 설정**
-    - https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html
+    - **[설치 파일 다운로드 및 설치](https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html) _(Link)_**
+      >
+    - [구성 및 자격증명 설정](https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/cli-configure-files.html)
 
 ---
 

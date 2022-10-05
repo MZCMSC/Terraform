@@ -4,6 +4,8 @@
 
 ---
 
+<img width="200" alt="Terraform_logo" src="https://user-images.githubusercontent.com/114654223/193966638-090281c3-9a18-4968-b1bc-4cd785a17da9.png">
+
 ### 1. Terraform [CODE](https://github.com/MZCMSC/Terraform/tree/main/CODE)
 
 - Terraform 예제 샘플 코드 입니다.
@@ -20,6 +22,8 @@
     │
     └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/CODE/ver_5_hierarchy">ver_5_hierarchy</a>
 </pre>
+
+---
 
 ### 2. Terraform [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md)
 
@@ -76,3 +80,5 @@
                 ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/08_IP_Network_Functions/README.md">IP_Network_Functions</a>
                 └── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/09_Type_Conversion_Functions/README.md">Type_Conversion_Functions</a> 
 </pre>
+
+---
