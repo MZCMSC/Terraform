@@ -76,7 +76,7 @@ terraform {
 -----
 ### provider 블럭
 ```hcl
-providre "aws" {
+provider "aws" {
     region = "ap-northeat-2"
 }
 ```
