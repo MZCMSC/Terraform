@@ -67,3 +67,9 @@ resource "aws_instance" "example" {
 > 블록 유형 키워드 및 레이블 뒤에는 블록 본문이 { and }자로 구분됩니다. 블록 본문 내에서 추가 인수와 블록이 중첩되어 블록 및 관련 인수의 계층 구조를 만들 수 있습니다.
 
 > Terraform 언어는 제한된 수의 최상위 블록 유형을 사용하며, 이는 구성 파일의 다른 블록 외부에 나타날 수 있는 블록입니다. 테라폼의 대부분의 기능(자원, 입력 변수, 출력 값, 데이터 소스 등)은 최상위 블록으로 구현됩니다.
+
+---
+
+### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/08_Settings/README.md)
+
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)
