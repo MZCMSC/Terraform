@@ -1,3 +1,6 @@
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [05.Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md) / [01.Numeric Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/01_Numeric_Functions/README.md)
+
+---
 
 ### Numeric Functions
 
@@ -190,6 +193,6 @@ signum은 숫자의 부호를 결정하며 -1에서 1 사이의 숫자를 반환
 
 ---
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/02_String_Functions/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/02_String_Functions/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)

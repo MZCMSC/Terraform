@@ -1,3 +1,6 @@
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [05.Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md) / [08.IP Network Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/08_IP_Network_Functions/README.md)
+
+---
 ### IP Network Functions
 
 <pre>
@@ -8,15 +11,15 @@
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/README.md">State</a>
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/README.md">Backends</a>
     └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md">Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/01_Numeric_Functions/README.md">Numeric_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/02_String_Functions/README.md">String_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/03_Collection_Functions/README.md">Collection_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/04_Encoding_Functions/README.md">Encoding_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/05_Filesystem_Functions/README.md">Filesystem_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/06_Date_and_Time_Functions/README.md">Date_and_Time_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/07_Hash_and_Crypto_Functions/README.md">Hash_and_Time_Functions</a>
-                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/08_IP_Network_Functions/README.md"><i><b>IP_Network_Functions</b></i></a>
-                └── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/09_Type_Conversion_Functions/README.md">Type_Conversion_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/01_Numeric_Functions/README.md">Numeric_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/02_String_Functions/README.md">String_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/03_Collection_Functions/README.md">Collection_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/04_Encoding_Functions/README.md">Encoding_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/05_Filesystem_Functions/README.md">Filesystem_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/06_Date_and_Time_Functions/README.md">Date_and_Time_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/07_Hash_and_Crypto_Functions/README.md">Hash_and_Time_Functions</a>
+                ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/08_IP_Network_Functions/README.md"><i><b>IP_Network_Functions</b></i></a>
+                └── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/09_Type_Conversion_Functions/README.md">Type_Conversion_Functions</a>
 </pre>
 
 ---
@@ -263,8 +266,8 @@ for expression에 중첩된 cidrsubnets 호출을 사용하여 네트워크 주�
 
 ---
 
-### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/07_Hash_and_Crypto_Functions/README.md)
+### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/07_Hash_and_Crypto_Functions/README.md)
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/09_Type_Conversion_Functions/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/09_Type_Conversion_Functions/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)

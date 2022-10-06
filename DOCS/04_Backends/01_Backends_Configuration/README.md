@@ -11,8 +11,8 @@
     ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md">Commands(CLI)</a>
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/README.md">State</a>
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/README.md"><i><b>Backends</b></i></a>
-    │           ├── <i><b><a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/07_Backends/01_Backends_Configuration/README.md">Remote_State</a></b></i>
-    │           └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/07_Backends/02_State_Locking/README.md">State_Locking</a>
+    │           ├── <i><b><a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/01_Backends_Configuration/README.md">Remote_State</a></b></i>
+    │           └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/02_State_Locking/README.md">State_Locking</a>
     └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md">Functions</a>
 </pre>
 

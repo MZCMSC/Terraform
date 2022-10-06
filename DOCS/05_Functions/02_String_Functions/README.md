@@ -1,3 +1,7 @@
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [05.Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md) / [02.String Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/02_String_Functions/README.md)
+
+---
+
 ### String Functions
 
 <pre>
@@ -645,8 +649,8 @@ HELLO
 
 ---
 
-### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/01_Numeric_Functions/README.md)
+### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/01_Numeric_Functions/README.md)
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/03_Collection_Functions/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/03_Collection_Functions/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)
