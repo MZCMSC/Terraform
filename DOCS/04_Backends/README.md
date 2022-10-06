@@ -18,7 +18,7 @@
 
 ## 07. Backends
 
-> Terraform의 Backend는 State가 로드 되는 방식과 applyh와 긑은 작이 실행되는 방식을 결정합니다.
+> Terraform의 Backend는 State가 로드 되는 방식과 apply와 같은 작업이 실행되는 방식을 결정합니다.
 
 #### Benefits of backends
 
