@@ -4,7 +4,7 @@
 
 > `$ tf state list`
 
-```sh
+```
 aws_dynamodb_table.terraform_state_locks
 aws_s3_bucket.terraform_state_backend
 aws_s3_bucket_acl.this
@@ -16,7 +16,7 @@ aws_s3_bucket_versioning.this
 
 > `$ tf output`
 
-```json
+```
 dynamodb_table_name = "test-terraform-state-locks"
 region = "ap-northeast-2"
 s3_bucket_acl = "private"
@@ -46,7 +46,7 @@ s3_versioning = tolist([
 
 > `$ tf state list`
 
-```sh
+```
 aws_default_security_group.this
 aws_eip.this[0]
 aws_eip.this[1]
@@ -85,7 +85,7 @@ aws_vpc.this
 
 > `$ tf output`
 
-```json
+```
 subnet_ids = {
   "10.50.10.0/24" = "subnet-06e1731a5812f62fd"
   "10.50.110.0/24" = "subnet-02c4e9df503563583"
@@ -411,7 +411,7 @@ vpc_id = "vpc-0251742e8eb1bd34c"
 
 > `$ tf state list`
 
-```sh
+```
 data.terraform_remote_state.vpc
 aws_default_security_group.this
 aws_security_group.this["backend"]
@@ -441,7 +441,7 @@ aws_security_group_rule.cidr_ingress["web_in_80"]
 
 > `$ tf output`
 
-```json
+```
 security_group_ids = {
   "backend" = "sg-0491a9ad052a4e7f6"
   "bastion" = "sg-00befa1c5be61d1c6"
@@ -622,7 +622,7 @@ security_groups = {
 
 > `$ tf state list`
 
-```sh
+```
 data.aws_ami.amazon-linux-2
 data.terraform_remote_state.sg
 data.terraform_remote_state.vpc
@@ -638,7 +638,7 @@ aws_instance.this["web_c"]
 
 > `$ tf output`
 
-```json
+```
 ec2_instance_id = {
   "bastion" = "i-05a034e0b17d3405a"
   "was_a" = "i-074f32f978578c422"
@@ -1261,7 +1261,7 @@ ec2_instances = {
 
 > `$ tf state list`
 
-```sh
+```
 data.terraform_remote_state.ec2
 data.terraform_remote_state.sg
 data.terraform_remote_state.vpc
@@ -1281,7 +1281,7 @@ aws_lb_target_group_attachment.this["web_c"]
 
 > `$ tf output`
 
-```json
+```
 alb_ids = {
   "backend" = "arn:aws:elasticloadbalancing:ap-northeast-2:561132301435:loadbalancer/app/test-tf-backend-alb/11d29918e9452972"
   "front" = "arn:aws:elasticloadbalancing:ap-northeast-2:561132301435:loadbalancer/app/test-tf-front-alb/9e86a2db4d77fbcd"
@@ -1304,7 +1304,7 @@ alb_tg_ids = {
 
 > `$ tf state list`
 
-```sh
+```
 data.terraform_remote_state.ec2
 data.terraform_remote_state.sg
 data.terraform_remote_state.vpc
@@ -1320,7 +1320,7 @@ aws_rds_cluster_parameter_group.this["msc_rds_aurora"]
 
 > `$ tf output`
 
-```json
+```
 cluster_parameter_group = {
   "msc_rds_aurora" = {
     "arn" = "arn:aws:rds:ap-northeast-2:561132301435:cluster-pg:test-tf-aurora-mysql8-0-parameter-group"
