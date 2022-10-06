@@ -1,4 +1,4 @@
-### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [06.State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/README.md) / [02.Remote State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/02_Remote_Terraform_State/README.md)
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [03.State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/README.md) / [02.Remote State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/02_Remote_Terraform_State/README.md)
 
 ---
 
@@ -74,8 +74,8 @@ module "eks" {
 
 ---
 
-### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/01_Purpose_of_Terraform_State/README.md)
+### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/01_Purpose_of_Terraform_State/README.md)
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/03_State_Locking/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/03_State_Locking/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)

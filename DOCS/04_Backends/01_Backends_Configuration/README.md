@@ -1,4 +1,4 @@
-### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [07.Backends](https://github.com/MZCMSC/Terraform/blob/main/DOCS/07_Backends/README.md) / [01.Backends Configuration](https://github.com/MZCMSC/Terraform/blob/main/DOCS/07_Backends/01_Backends_Configuration/README.md)
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [04.Backends](https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/README.md) / [01.Backends Configuration](https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/01_Backends_Configuration/README.md)
 
 ---
 
@@ -35,6 +35,6 @@ terraform {
 
 ---
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/07_Backends/02_State_Locking/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/02_State_Locking/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)

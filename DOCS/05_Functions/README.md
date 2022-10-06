@@ -46,3 +46,7 @@ max(5, 12, 9)
 - [Hash and Crypto Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/07_Hash_and_Crypto_Functions/README.md)
 - [IP Network Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/08_IP_Network_Functions/README.md)
 - [Type Conversion Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/08_Functions/09_Type_Conversion_Functions/README.md)
+
+---
+
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)
