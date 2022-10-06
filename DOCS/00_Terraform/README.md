@@ -34,11 +34,11 @@
 > HashiCorp와 Terraform 커뮤니티는 이미 수천 가지 유형의 리소스와 서비스를 관리하기 위해 1700개 이상의 공급자를 작성했으며, 이 수는 계속 증가하고 있습니다.
 > Amazon Web Services(AWS), Azure, Google Cloud Platform(GCP), Kubernetes, Helm, GitHub, Splunk, DataDog 등을 포함하여 Terraform Registry에서 공개적으로 사용 가능한 모든 공급자를 찾을 수 있습니다.
 
-핵심 Terraform 워크플로는 세 단계로 구성됩니다.
+> 핵심 Terraform 워크플로는 세 단계로 구성됩니다.
 
-- write: 여러 클라우드 공급자 및 서비스에 걸쳐 있을 수 있는 리소스를 정의합니다. 예를 들어 보안 그룹 및 로드 밸런서가 있는 Virtual Private Cloud(VPC) 네트워크의 가상 머신에 애플리케이션을 배포하기 위한 구성을 생성할 수 있습니다.
-- plan: Terraform은 기존 인프라 및 구성을 기반으로 생성, 업데이트 또는 파괴할 인프라를 설명하는 실행 계획을 생성합니다.
-- apply: 승인 시 Terraform은 리소스 종속성을 고려하여 제안된 작업을 올바른 순서로 수행합니다. 예를 들어 VPC의 속성을 업데이트하고 해당 VPC의 가상 머신 수를 변경하면 Terraform은 가상 머신을 확장하기 전에 VPC를 다시 생성합니다.
+> - write: 여러 클라우드 공급자 및 서비스에 걸쳐 있을 수 있는 리소스를 정의합니다. 예를 들어 보안 그룹 및 로드 밸런서가 있는 Virtual Private Cloud(VPC) 네트워크의 가상 머신에 애플리케이션을 배포하기 위한 구성을 생성할 수 있습니다.
+> - plan: Terraform은 기존 인프라 및 구성을 기반으로 생성, 업데이트 또는 파괴할 인프라를 설명하는 실행 계획을 생성합니다.
+> - apply: 승인 시 Terraform은 리소스 종속성을 고려하여 제안된 작업을 올바른 순서로 수행합니다. 예를 들어 VPC의 속성을 업데이트하고 해당 VPC의 가상 머신 수를 변경하면 Terraform은 가상 머신을 확장하기 전에 VPC를 다시 생성합니다.
 
 
 - [Configuration Language](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/README.md)
