@@ -195,6 +195,128 @@ resource "aws_launch_configuration" "worker" {
 > prevent_destroy(bool) - 인수가 구성에 존재하는 한 자원과 관련된 인프라 개체를 파괴하는 계획을 Terraform이 오류와 함께 거부하게 합니다.  
 > Ignore_changes(list of attribute names) - Terraform은 실제 인프라 개체의 현재 설정에서 차이를 감지하고 구성과 일치하도록 원격 개체를 업데이트를 시도 합니다. 하지만 외부에서 변경된 리소스를 변경 하고 싶지 않을때 사용될 수 있습니다.
 
+
+#### Provisioners
+
+> Provisioner를 사용하면 서버 또는 기타 인프라 개체를 서비스 할 수 있도록 로컬 컴퓨터 또는 원격 컴퓨터에서 특정 작업을 모델링 할 수 있습니다.
+
+##### Provisioners are a Last Resort
+
+> Terraform에는 Terraform의 선언적 모델에서 직접 표현할 수 없는 특정 행동이 항상 있을것 임을 알고 프로비저닝의 개념을 실용주의의 척도로 포함합니다.  
+> 하지만 이것은 Terraform 사용에 상당한 복잡성과 불확실성을 추가합니다.  
+> 최대한 Terraform에서 제공되는 기본 기능으로 시도하고, 다른 옵션이 없을 경우에만 Provisioner를 사용하는 것이 좋습니다.
+
+- [Provisioner Connection Settings](https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Provisioners/01_Provisioner_Connection_Settings/README.md)
+- [Provisioner without a Resource](https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Provisioners/02_Provisioner_without_a_Resource/README.md)
+
+What Providers Do
+
+각 공급자는 Terraform이 관리할 수 있는 리소스 유형 및/또는 데이터 소스 세트를 추가합니다.
+
+모든 리소스 유형은 공급자에 의해 구현됩니다. 공급자가 없으면 Terraform은 어떤 종류의 인프라도 관리할 수 없습니다.
+
+대부분의 공급자는 특정 인프라 플랫폼(클라우드 또는 자체 호스팅)을 구성합니다. 공급자는 고유한 리소스 이름에 대한 난수 생성과 같은 작업을 위한 로컬 유틸리티를 제공할 수도 있습니다.
+
+Where Providers Come From
+
+제공자는 테라폼 자체와 별도로 배포되며, 각 제공자는 자체 릴리스 캐던스와 버전 번호를 가지고 있다.
+
+테라폼 레지스트리는 공개적으로 사용 가능한 테라폼 제공자의 메인 디렉토리이며 대부분의 주요 인프라 플랫폼을 위한 제공자를 호스팅한다.
+
+##### Provisioner Connection Settings
+
+> 대부분의 프로 비져는 SSH 또는 WinRM을 통해 원격 리소스에 액세스 해야하며 연결 방법에 대한 세부 정보가 포함된 중첩된 연결 블록이 필요합니다.
+
+###### Example
+
+```hcl
+# Copies the file as the root user using SSH
+provisioner "file" {
+  source      = "conf/myapp.conf"
+  destination = "/etc/myapp.conf"
+  connection {
+    type     = "ssh"
+    user     = "root"
+    password = "${var.root_password}"
+    host     = "${var.host}"
+  }
+}
+```
+
+##### Provisioner without a Resource
+
+> 특정 리소스와 직접 연결되지 않은 프로 비저를 실행해야 하는 경우 해당 공급자를 null_resource와 연결할 수 있습니다.
+
+###### Example
+
+```hcl
+resource "aws_instance" "cluster"{
+  count = 3
+
+  # ...
+}
+
+resource "null_resource" "cluster" {
+  # Changes to any instance of the cluster requires re-provisioning
+triggers = {
+    cluster_instance_ids = "${join(",", aws_instance.cluster.*.id)}"}
+
+  # Bootstrap script can run on any instance of the cluster
+  # So we just choose the first in this case
+connection {
+    host = "${element(aws_instance.cluster.*.public_ip, 0)}"
+  }
+
+provisioner "remote-exec" {
+    # Bootstrap script called with private_ip of each node in the cluster
+    inline = [
+      "bootstrap-cluster.sh ${join(" ", aws_instance.cluster.*.private_ip)}",
+    ]
+  }
+}
+```
+
+###### Example - kubernetes provider 사용 전
+
+```hcl
+resource "null_resource" "executor" {
+  depends_on = [aws_eks_cluster.cluster]
+
+triggers = {
+    endpoint = aws_eks_cluster.cluster.endpoint
+}
+
+provisioner "local-exec" {
+    working_dir = path.module
+
+    command =<< EOS
+echo "kubectl apply -f aws-auth.yaml"
+EOS
+
+    interpreter =var.local_exec_interpreter
+  }
+}
+```
+
+###### Example - kubernetes provider 사용 후
+
+```hcl
+resource "kubernetes_config_map" "aws_auth" {
+  depends_on = [aws_eks_cluster.cluster]
+
+metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = yamlencode(var.map_roles)
+    mapUsers = yamlencode(var.map_users)
+  }
+}
+```
+
+
 ---
 
 ### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/02_Providers/README.md)
