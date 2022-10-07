@@ -31,13 +31,13 @@ resource "aws_subnet" "main_pub_a_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.10.0/24"
   availability_zone = "ap-northeast-2a"
-  tags              = { Name = "test-tf-ap-northeast-2a-public-main-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-public-main-subnet" }
 }
 resource "aws_subnet" "main_pub_c_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.20.0/24"
   availability_zone = "ap-northeast-2c"
-  tags              = { Name = "test-tf-ap-northeast-2c-public-main-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2c-public-main-subnet" }
 }
 
 # Private subnet (WEB)
@@ -45,13 +45,13 @@ resource "aws_subnet" "web_pri_a_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.110.0/24"
   availability_zone = "ap-northeast-2a"
-  tags              = { Name = "test-tf-ap-northeast-2a-private-web-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-private-web-subnet" }
 }
 resource "aws_subnet" "web_pri_c_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.120.0/24"
   availability_zone = "ap-northeast-2c"
-  tags              = { Name = "test-tf-ap-northeast-2c-private-web-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2c-private-web-subnet" }
 }
 
 # Private subnet (WAS)
@@ -59,13 +59,13 @@ resource "aws_subnet" "was_pri_a_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.130.0/24"
   availability_zone = "ap-northeast-2a"
-  tags              = { Name = "test-tf-ap-northeast-2a-private-was-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-private-was-subnet" }
 }
 resource "aws_subnet" "was_pri_c_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.140.0/24"
   availability_zone = "ap-northeast-2c"
-  tags              = { Name = "test-tf-ap-northeast-2c-private-was-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2c-private-was-subnet" }
 }
 
 # Private subnet (RDS)
@@ -73,13 +73,13 @@ resource "aws_subnet" "rds_pri_a_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.210.0/24"
   availability_zone = "ap-northeast-2a"
-  tags              = { Name = "test-tf-ap-northeast-2a-private-rds-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-private-rds-subnet" }
 }
 resource "aws_subnet" "rds_pri_c_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.220.0/24"
   availability_zone = "ap-northeast-2c"
-  tags              = { Name = "test-tf-ap-northeast-2c-private-rds-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2c-private-rds-subnet" }
 }
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -97,12 +97,12 @@ resource "aws_internet_gateway" "this" {
 resource "aws_eip" "natgw_a_eip" {
   vpc = true
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2a-nat-eip" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-nat-eip" }
 }
 resource "aws_eip" "natgw_c_eip" {
   vpc = true
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2c-nat-eip" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2c-nat-eip" }
 }
 
 # NAT GW
@@ -111,14 +111,14 @@ resource "aws_nat_gateway" "natgw_a" {
   subnet_id         = aws_subnet.main_pub_a_subnet.id
   connectivity_type = "public"
   depends_on        = [aws_eip.natgw_a_eip]
-  tags              = { Name = "test-tf-ap-northeast-2a-main-natgw" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-main-natgw" }
 }
 resource "aws_nat_gateway" "natgw_c" {
   allocation_id     = aws_eip.natgw_c_eip.id
   subnet_id         = aws_subnet.main_pub_c_subnet.id
   connectivity_type = "public"
   depends_on        = [aws_eip.natgw_c_eip]
-  tags              = { Name = "test-tf-ap-northeast-2c-main-natgw" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2c-main-natgw" }
 }
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -132,41 +132,41 @@ resource "aws_default_route_table" "this" {
 # Public RTB
 resource "aws_route_table" "pub_a_main_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2a-public-main-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2a-public-main-rtb" }
 }
 resource "aws_route_table" "pub_c_main_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2c-public-main-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2c-public-main-rtb" }
 }
 
 # Private RTB (WEB)                         
 resource "aws_route_table" "pri_a_web_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2a-private-web-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2a-private-web-rtb" }
 }
 resource "aws_route_table" "pri_c_web_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2c-private-web-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2c-private-web-rtb" }
 }
 
 # Private RTB (WAS)
 resource "aws_route_table" "pri_a_was_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2a-private-was-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2a-private-was-rtb" }
 }
 resource "aws_route_table" "pri_c_was_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2c-private-was-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2c-private-was-rtb" }
 }
 
 # Private RTB (RDS)
 resource "aws_route_table" "pri_a_rds_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2a-private-rds-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2a-private-rds-rtb" }
 }
 resource "aws_route_table" "pri_c_rds_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2c-private-rds-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2c-private-rds-rtb" }
 }
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #                      Route_table routes
@@ -224,48 +224,39 @@ resource "aws_route" "pri_c_rds_rt" {
 resource "aws_route_table_association" "pub_a_main_rtb" {
   route_table_id = aws_route_table.pub_a_main_rtb.id
   subnet_id      = aws_subnet.main_pub_a_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 resource "aws_route_table_association" "pub_c_main_rtb" {
   route_table_id = aws_route_table.pub_c_main_rtb.id
   subnet_id      = aws_subnet.main_pub_c_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 # Private (WEB)
 resource "aws_route_table_association" "pri_a_web_rtb" {
   route_table_id = aws_route_table.pri_a_web_rtb.id
   subnet_id      = aws_subnet.web_pri_a_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_a.id
-
 }
 resource "aws_route_table_association" "pri_c_web_rtb" {
   route_table_id = aws_route_table.pri_c_web_rtb.id
   subnet_id      = aws_subnet.web_pri_c_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_c.id
 }
 
 # Private (WAS)
 resource "aws_route_table_association" "pri_a_was_rtb" {
   route_table_id = aws_route_table.pri_a_was_rtb.id
   subnet_id      = aws_subnet.was_pri_a_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_a.id
 }
 resource "aws_route_table_association" "pri_c_was_rtb" {
   route_table_id = aws_route_table.pri_c_was_rtb.id
   subnet_id      = aws_subnet.was_pri_c_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_c.id
 }
 
 # Private (RDS)
 resource "aws_route_table_association" "pri_a_rds_rtb" {
   route_table_id = aws_route_table.pri_a_rds_rtb.id
   subnet_id      = aws_subnet.rds_pri_a_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_a.id
 }
 resource "aws_route_table_association" "pri_c_rds_rtb" {
   route_table_id = aws_route_table.pri_c_rds_rtb.id
   subnet_id      = aws_subnet.rds_pri_c_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_c.id
 }
 
 
@@ -526,7 +517,7 @@ resource "aws_security_group_rule" "backend_alb_ingress_rule" {
 resource "aws_eip" "bastion_eip" {
   vpc      = true
   instance = aws_instance.bastion.id
-  tags     = { Name = "test-tf-ap-northeast-2a-bastion-eip" }
+  tags     = { Name = "test-tf-vpc-ap-northeast-2a-bastion-eip" }
 }
 
 # EC2 Instance
@@ -541,11 +532,11 @@ resource "aws_instance" "bastion" {
   root_block_device {
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-ap-northeast-2a-bastion" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
   lifecycle { create_before_destroy = true }
   # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2a-bastion" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
 }
 
 
@@ -573,10 +564,10 @@ resource "aws_instance" "web_a" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-ap-northeast-2a-web" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-web" }
   }
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2a-web" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-web" }
 }
 resource "aws_instance" "web_c" {
   ami               = "ami-0fd0765afb77bcca7"
@@ -599,10 +590,10 @@ resource "aws_instance" "web_c" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-ap-northeast-2c-web" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2c-web" }
   }
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2c-web" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2c-web" }
 }
 
 # WAS Server
@@ -618,10 +609,10 @@ resource "aws_instance" "was_a" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-ap-northeast-2a-was" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-was" }
   }
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2a-was" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-was" }
 }
 resource "aws_instance" "was_c" {
   ami               = "ami-0fd0765afb77bcca7"
@@ -635,10 +626,10 @@ resource "aws_instance" "was_c" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-ap-northeast-2c-was" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2c-was" }
   }
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2c-was" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2c-was" }
 }
 
 # ++++++++++++++++++++++++++++++++++++++++++++++

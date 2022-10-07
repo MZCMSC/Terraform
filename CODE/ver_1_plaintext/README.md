@@ -157,7 +157,7 @@ resource "aws_subnet" "main_pub_a_subnet" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = "10.50.10.0/24"
   availability_zone = "ap-northeast-2a"
-  tags              = { Name = "test-tf-ap-northeast-2a-public-main-subnet" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-public-main-subnet" }
 }
 
 ...(생략) (필요한 갯수 만큼 설정)
@@ -176,7 +176,7 @@ resource "aws_subnet" "main_pub_a_subnet" {
       - 바로 위에 설정한 "resouce" "aws_vpc" "this" 의 코드 블럭(생성된 정보값)의 id 값을 참조하도록 설정
     - "10.50.10.0/24"
     - "ap-northeast-2a"
-    - { Name = "test-tf-ap-northeast-2a-public-main-subnet" }
+    - { Name = "test-tf-vpc-ap-northeast-2a-public-main-subnet" }
 
 > 참고용 URL
 >
@@ -218,7 +218,7 @@ resource "aws_internet_gateway" "this" {
 resource "aws_eip" "natgw_a_eip" {
   vpc = true
   lifecycle { create_before_destroy = true }
-  tags = { Name = "test-tf-ap-northeast-2a-nat-eip" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-nat-eip" }
 }
 
 # NAT G/W 생성
@@ -227,7 +227,7 @@ resource "aws_nat_gateway" "natgw_a" {
   subnet_id         = aws_subnet.main_pub_a_subnet.id
   connectivity_type = "public"
   depends_on        = [aws_eip.natgw_a_eip]
-  tags              = { Name = "test-tf-ap-northeast-2a-main-natgw" }
+  tags              = { Name = "test-tf-vpc-ap-northeast-2a-main-natgw" }
 }
 ...(생략) (필요한 갯수 만큼 설정)
 ```
@@ -289,7 +289,7 @@ resource "aws_default_route_table" "this" {
 # RTB 생성
 resource "aws_route_table" "pub_a_main_rtb" {
   vpc_id = aws_vpc.this.id
-  tags   = { Name = "test-tf-ap-northeast-2a-public-main-rtb" }
+  tags   = { Name = "test-tf-vpc-ap-northeast-2a-public-main-rtb" }
 }
 
 # RTB to Subnet association
@@ -451,17 +451,17 @@ resource "aws_instance" "bastion" {
     volume_size = 8
     volume_type = "gp3"
     # delete_on_termination = true
-    tags = { Name = "test-tf-ap-northeast-2a-bastion" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
   lifecycle { create_before_destroy = true }
   # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2a-bastion" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
 }
 
 resource "aws_eip" "bastion_eip" {
   vpc      = true
   instance = aws_instance.bastion.id
-  tags     = { Name = "test-tf-ap-northeast-2a-bastion-eip" }
+  tags     = { Name = "test-tf-vpc-ap-northeast-2a-bastion-eip" }
 }
 ...(생략) (필요한 서브넷의 갯수 만큼 설정)
 ```
@@ -479,7 +479,7 @@ resource "aws_eip" "bastion_eip" {
     - 표현값의 경우 "${aws_security_group.bastion_sg.id}" or aws_security_group.bastion_sg.id 사용가능
   - key_name
     - EC2 instance 생성시 적용 \*.pem key (key_pair)
-    - ****`빠른 진행을 위해서 기존 AWS key_pair 사용`****
+    - **`빠른 진행을 위해서 기존 AWS key_pair 사용`**
   - subnet_id
 
     - EC2 instance 가 생성 되는 subnet 위치
@@ -488,7 +488,7 @@ resource "aws_eip" "bastion_eip" {
     - EC2 instance 생성시 기본 EBS(root_block)
     - "gp3" 타입의 "8" Gib 로 생성
   - delete_on_termination (주석)
-    - 해당 설정문은 AWS의 ****"termination protection"**** 설정 옵션
+    - 해당 설정문은 AWS의 \***\*"termination protection"\*\*** 설정 옵션
 
 - **resource "aws_eip" "bastion_eip" {...} 블럭 생성 진행**
   - instance
@@ -629,7 +629,7 @@ resource "aws_lb_listener" "front_alb_listener" {
     - 통신 하고자 하는 port 설정
   - protocol
     - 통신 하고자 하는 프로토콜 설정
-  - ****default_action 내부 블럭****
+  - \***\*default_action 내부 블럭\*\***
     - type
       - 액션의 타입을 **"forward"**(전달) 설정
         - 타입은 **"forward"**, **"redirect"**, **"fixed-response"**, **"authenticate-cognito"**, **"authenticate-oidc"** 가 있다.
