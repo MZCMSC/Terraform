@@ -1,8 +1,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #               RDS Parameter group
 # ++++++++++++++++++++++++++++++++++++++++++++++
-#                Cluster PG type
-# ++++++++++++++++++++++++++++++++++++++++++++++
+# Cluster PG type
+
 resource "aws_rds_cluster_parameter_group" "this" {
   # description = 
   # name   = "test-tf-rds-cluster-mysql3-01-0-cpg"
