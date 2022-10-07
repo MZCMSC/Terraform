@@ -69,6 +69,6 @@ output "db_password" {
 
 ### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/05_Input_Variables/README.md)
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/07_Modules/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/07_Modudles/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)

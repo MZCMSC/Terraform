@@ -10,9 +10,9 @@
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/README.md">Configuration Language</a>
     ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md">Commands(CLI)</a>
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/README.md"><i><b>State</b></i></a>
-    │       ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/01_Purpose_of_Terraform_State/README.md">Purpose_of_Terraform_State</a>
-    │       ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/02_Remote_State/README.md">Remote_State</a>
-    │       └── <i><b><a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/03_State_Locking/README.md">State_Locking</a></b></i>
+    │       ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/01_Purpose_of_Terraform_State/README.md">Purpose_of_Terraform_State</a>
+    │       ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/02_Remote_State/README.md">Remote_State</a>
+    │       └── <i><b><a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/03_State_Locking/README.md">State_Locking</a></b></i>
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/README.md">Backends</a>
     └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md">Functions</a>
 </pre>
