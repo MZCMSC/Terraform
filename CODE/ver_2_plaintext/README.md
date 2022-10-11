@@ -165,7 +165,7 @@ resource "aws_subnet" "main_pub_a_subnet" {
 
 - **resource "aws_subnet" "main_pub_a_subnet" {...} 블럭 생성 진행**
   - vpc_id
-    - aws*vpc*.this.id
+    - aws_vpc.this.id
     - 바로 위에 설정한 "resouce" "aws_vpc" "this" 의 코드 블럭(생성된 정보값)의 id 값을 참조하도록 설정
   - cidr_block
     - "10.50.10.0/24"
@@ -428,11 +428,9 @@ resource "aws_instance" "bastion" {
   root_block_device {
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
     tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
   tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
 }
 
@@ -457,17 +455,14 @@ resource "aws_eip" "bastion_eip" {
     - 표현값의 경우 "${aws_security_group.bastion_sg.id}" or aws_security_group.bastion_sg.id 사용가능
   - key_name
     - EC2 instance 생성시 적용 \*.pem key (key_pair)
-    - \***\*`빠른 진행을 위해서 기존 AWS key_pair 사용`\*\***
+    - **_`빠른 진행을 위해서 기존 AWS key_pair 사용`_**
   - subnet_id
-
     - EC2 instance 가 생성 되는 subnet 위치
-
+>
   - root_block_device {...} 내부 블럭
     - EC2 instance 생성시 기본 EBS(root_block)
     - "gp3" 타입의 "8" Gib 로 생성
-  - delete_on_termination (주석)
-    - 해당 설정문은 AWS의 **"termination protection"** 설정 옵션
-
+> 
 - **resource "aws_eip" "bastion_eip" {...} 블럭 생성 진행**
   - instance
     - 생성된 EIP 리소스를 설정된 EC2 instance 에 Associate 진행
@@ -605,7 +600,7 @@ resource "aws_lb_listener" "front_alb_listener" {
     - 통신 하고자 하는 port 설정
   - protocol
     - 통신 하고자 하는 프로토콜 설정
-  - \***\*default_action 내부 블럭\*\***
+  - **default_action 내부 블럭**
     - type
       - 액션의 타입을 **"forward"**(전달) 설정
         - 타입은 **"forward"**, **"redirect"**, **"fixed-response"**, **"authenticate-cognito"**, **"authenticate-oidc"** 가 있다.
