@@ -15,7 +15,7 @@
 ├── internat_gateway.tf
 ├── nat_gateway.tf
 ├── route_table.tf
-├── route_table_routetf
+├── route_table_route.tf
 ├── security_group.tf
 ├── security_group_rule.tf
 ├── ec2_instance.tf
@@ -408,7 +408,7 @@ resource "aws_instance" "bastion" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2a"
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.bastion_sg.id, ]
+  vpc_security_group_ids   = [aws_security_group.bastion_sg.id, ]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.main_pub_a_subnet.id
 
@@ -439,7 +439,7 @@ resource "aws_eip" "bastion_eip" {
     - EC2 instance 생성시 위치 하는 AZ
   - instance_type
     - EC2 instance 생성시 type
-  - security_groups
+  - vpc_security_group_ids
     - EC2 instance 생성시 Attach 진행 하는 SG
     - 표현값의 경우 "${aws_security_group.bastion_sg.id}" or aws_security_group.bastion_sg.id 사용가능
   - key_name
@@ -453,7 +453,7 @@ resource "aws_eip" "bastion_eip" {
     - EC2 instance 생성시 기본 EBS(root_block)
     - "gp3" 타입의 "8" Gib 로 생성
   - delete_on_termination (주석)
-    - 해당 설정문은 AWS의 \***\*"termination protection"\*\*** 설정 옵션
+    - 해당 설정문은 AWS의 **"termination protection"** 설정 옵션
 
 - **resource "aws_eip" "bastion_eip" {...} 블럭 생성 진행**
   - instance
