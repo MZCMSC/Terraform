@@ -1,48 +1,41 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #                       Bastion Server
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#                           EIP
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# EIP
 resource "aws_eip" "bastion_eip" {
   vpc      = true
   instance = aws_instance.bastion.id
   tags     = { Name = "test-tf-vpc-ap-northeast-2a-bastion-eip" }
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#                       EC2 Instance
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# EC2 Instance
 resource "aws_instance" "bastion" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2a"
   instance_type     = "t2.micro"
-  security_groups   = ["${aws_security_group.bastion_sg.id}"]
+  vpc_security_group_ids = [aws_security_group.bastion_sg.id, ]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.main_pub_a_subnet.id
 
-  ebs_block_device {
-    device_name = "/dev/xvda"
+  root_block_device {
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
-    tags = { Name = "test-tf-ap-northeast-2a-bastion" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
   lifecycle { create_before_destroy = true }
   # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2a-bastion" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
 }
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#                        Service Server
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#                          WEB Server
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Service Server
+# WEB Server
 resource "aws_instance" "web_a" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2a"
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.web_pri_a_subnet.id
 
@@ -59,18 +52,16 @@ resource "aws_instance" "web_a" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
-    tags = { Name = "test-tf-ap-northeast-2a-web" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-web" }
   }
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2a-web" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-web" }
 }
 resource "aws_instance" "web_c" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2c"
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.web_pri_c_subnet.id
 
@@ -87,22 +78,18 @@ resource "aws_instance" "web_c" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
-    tags = { Name = "test-tf-ap-northeast-2c-web" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2c-web" }
   }
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2c-web" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2c-web" }
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#                          WAS Server
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# WAS Server
 resource "aws_instance" "was_a" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2a"
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.was_sg.id]
+  vpc_security_group_ids = [aws_security_group.was_sg.id]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.was_pri_a_subnet.id
 
@@ -110,18 +97,16 @@ resource "aws_instance" "was_a" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
-    tags = { Name = "test-tf-ap-northeast-2a-was" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2a-was" }
   }
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2a-was" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2a-was" }
 }
 resource "aws_instance" "was_c" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2c"
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.was_sg.id]
+  vpc_security_group_ids = [aws_security_group.was_sg.id]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.was_pri_c_subnet.id
 
@@ -129,10 +114,8 @@ resource "aws_instance" "was_c" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
-    tags = { Name = "test-tf-ap-northeast-2c-was" }
+    tags = { Name = "test-tf-vpc-ap-northeast-2c-was" }
   }
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
-  tags = { Name = "test-tf-ap-northeast-2c-was" }
+  tags = { Name = "test-tf-vpc-ap-northeast-2c-was" }
 }

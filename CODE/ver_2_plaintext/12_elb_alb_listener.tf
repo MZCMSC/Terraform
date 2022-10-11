@@ -1,8 +1,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #                   ALB Listener
 # ++++++++++++++++++++++++++++++++++++++++++++++
-#                     Front
-# ++++++++++++++++++++++++++++++++++++++++++++++
+# Front
 resource "aws_lb_listener" "front_alb_listener" {
   load_balancer_arn = aws_lb.front_alb.arn
   port              = 80
@@ -15,9 +14,7 @@ resource "aws_lb_listener" "front_alb_listener" {
   tags = { Name = "test-tf-vpc-front-alb-listener" }
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#                    Backend
-# ++++++++++++++++++++++++++++++++++++++++++++++
+# Backend
 resource "aws_lb_listener" "backend_alb_listener" {
   load_balancer_arn = aws_lb.backend_alb.arn
   port              = 8080
