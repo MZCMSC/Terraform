@@ -550,7 +550,7 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
     - TG의 Name 설정
   - vpc_id
     - 위에서 생성한 VPC의 id값을 참조
-    - [resource] aws_vpc.this 의 id 값(속성) 참조
+    - aws_vpc.this 의 id 값(속성) 참조
   - target_type
     - TG의 타입을 instance 로 설정
   - port
