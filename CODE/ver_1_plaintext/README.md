@@ -292,11 +292,17 @@ resource "aws_route_table" "pub_a_main_rtb" {
   tags   = { Name = "test-tf-vpc-ap-northeast-2a-public-main-rtb" }
 }
 
+# RTB 의 RT 설정
+resource "aws_route" "pub_a_main_rt" {
+  route_table_id = aws_route_table.pub_a_main_rtb.id
+  gateway_id = aws_internet_gateway.this.id
+  destination_cidr_block = "0.0.0.0/0"
+}
+
 # RTB to Subnet association
 resource "aws_route_table_association" "pub_a_main_rtb" {
   route_table_id = aws_route_table.pub_a_main_rtb.id
   subnet_id      = aws_subnet.main_pub_a_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 ...(생략) (필요한 갯수 만큼 설정)
 ```
@@ -306,18 +312,25 @@ resource "aws_route_table_association" "pub_a_main_rtb" {
   - vpc_id
     - 위에서 생성한 VPC 정보값 참조 설정
 
+- **resource "aws_route" "pub_a_main_rt" {...} 블럭 생성 진행**
+
+  - route_table_id
+    - 생성된 RTB 의 id 참조하여 설정
+  - gateway_id
+    - Internet_gateway 설정
+  - destination_cidr_block
+    - "0.0.0.0/0" 설정
+
 - **resource "aws_route_table_association" "pub_a_main_rtb" {...} 블럭 생성 진행**
   - route_table_id
     - 생성된 RTB 의 id 참조하여 설정
   - subnet_id
     - 생성된 서브넷 의 id 참조하여 설정
-  - gateway_id
-    - IGW 및 NAT 연결 가능한 식별자 설정을 보여주고자 작성
-    - 해당 항목은 subnet_id 와 중복하여 설정 불가.
 
 > 참고용 URL
 >
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
 
 ---
@@ -365,6 +378,7 @@ resource "aws_security_group" "bastion_sg" {
     - egress -> outbound
 
 * ingress (주석 되어 있음)
+
   - description
     - 해당 SG의 inbound rule 의 설명문
   - protocol
@@ -376,6 +390,7 @@ resource "aws_security_group" "bastion_sg" {
   - cidr_blocks
     - **[ ]** 리스트 형식으로 입력
     - "0.0.0.0/0" 전체 IP 영역
+
 * egress
   - protocol
     - "-1"
@@ -439,22 +454,22 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
 
 ```hcl
 resource "aws_instance" "bastion" {
-  ami               = "ami-0fd0765afb77bcca7"
-  availability_zone = "ap-northeast-2a"
-  instance_type     = "t2.micro"
-# security_groups   = ["${aws_security_group.bastion_sg.id}", ]
-  security_groups   = [aws_security_group.bastion_sg.id, ]
-  key_name          = "tf_test_key"
-  subnet_id         = aws_subnet.main_pub_a_subnet.id
+  ami                       = "ami-0fd0765afb77bcca7"
+  availability_zone         = "ap-northeast-2a"
+  instance_type             = "t2.micro"
+
+  vpc_security_group_ids    = [aws_security_group.bastion_sg.id, ]
+  key_name                  = "tf_test_key"
+  subnet_id                 = aws_subnet.main_pub_a_subnet.id
 
   root_block_device {
-    volume_size = 8
-    volume_type = "gp3"
-    # delete_on_termination = true
+    volume_size             = 8
+    volume_type             = "gp3"
     tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
+
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
+
   tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
 }
 
@@ -487,8 +502,6 @@ resource "aws_eip" "bastion_eip" {
   - root_block_device {...} 내부 블럭
     - EC2 instance 생성시 기본 EBS(root_block)
     - "gp3" 타입의 "8" Gib 로 생성
-  - delete_on_termination (주석)
-    - 해당 설정문은 AWS의 \***\*"termination protection"\*\*** 설정 옵션
 
 - **resource "aws_eip" "bastion_eip" {...} 블럭 생성 진행**
   - instance
@@ -513,7 +526,7 @@ resource "aws_eip" "bastion_eip" {
 ```hcl
 resource "aws_lb" "front_alb" {
   name               = "test-tf-ext-front-alb"
-  internal           = false # Public
+  internal           = false                    # Public
   load_balancer_type = "application"
   subnets = [
     aws_subnet.main_pub_a_subnet.id,
@@ -629,7 +642,7 @@ resource "aws_lb_listener" "front_alb_listener" {
     - 통신 하고자 하는 port 설정
   - protocol
     - 통신 하고자 하는 프로토콜 설정
-  - \***\*default_action 내부 블럭\*\***
+  - **default_action 내부 블럭**
     - type
       - 액션의 타입을 **"forward"**(전달) 설정
         - 타입은 **"forward"**, **"redirect"**, **"fixed-response"**, **"authenticate-cognito"**, **"authenticate-oidc"** 가 있다.
@@ -791,7 +804,7 @@ resource "aws_rds_cluster" "this" {
 
     - 마지막 스냅샷 생성 여부 설정
     - ture 설정시 스냅샷 생성 안함
-      - default 설정값은 **false**
+      - default 설정값은 **`false`**
       - false 설정시 **final_snapshot_identifier = " "** 식별자/표현값 참조하여 스냅샷 생성
 
   - db_cluster_parameter_group_name
