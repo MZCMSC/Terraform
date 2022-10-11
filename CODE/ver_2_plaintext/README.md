@@ -123,7 +123,7 @@ providre "aws" {
 }
 ```
 
-- provider 는 "aws"로 사용, 리전은 "ap-northeast-2" Seoul 리전으로 사용을 설정
+- provider 는 "`aws`"로 사용, 리전은 "`ap-northeast-2`" Seoul 리전으로 사용을 설정
 
 ---
 
@@ -262,7 +262,6 @@ resource "aws_route_table" "pub_a_main_rtb" {
 resource "aws_route_table_association" "pub_a_main_rtb" {
   route_table_id = aws_route_table.pub_a_main_rtb.id
   subnet_id      = aws_subnet.main_pub_a_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 ...(생략) (필요한 갯수 만큼 설정)
 ```
@@ -277,14 +276,29 @@ resource "aws_route_table_association" "pub_a_main_rtb" {
     - 생성된 RTB 의 id 참조하여 설정
   - subnet_id
     - 생성된 서브넷 의 id 참조하여 설정
-  - gateway_id
-    - IGW 및 NAT 연결 가능한 식별자 설정을 보여주고자 작성
-    - 해당 항목은 subnet_id 와 중복하여 설정 불가.
 
 > 참고용 URL
 >
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
+
+---
+
+## route_table_route.tf
+
+```hcl
+resource "aws_route" "pub_a_main_rt" {
+  route_table_id = aws_route_table.pub_a_main_rtb.id
+  gateway_id = aws_internet_gateway.this.id
+  destination_cidr_block = "0.0.0.0/0"
+}
+```
+
+- **resource "aws_route" "pub_a_main_rt" {...} 블럭 생성 진행**
+  - route_table_id
+    - 생성된 RTB 의 id 참조하여 설정
+  - gateway_id
+    - 생성된 IGW 의 id 참조하여 설정
 
 ---
 
@@ -311,7 +325,7 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = { Name = "test-tf-bastion-sg" }
-}[](https://class101.net/)
+}
 ...(생략) (필요한 서브넷의 갯수 만큼 설정)
 ```
 
@@ -324,30 +338,29 @@ resource "aws_security_group" "bastion_sg" {
     - 생성하고자 하는 SG의 생성 영역 VPC기준
     - SG의 경우 각각 VPC에 종속 되는 리소스
 
-* SG 블럭에서의 내부 블럭을 2개 작성, 1개 적용으로 작성 하였다.
+  - SG 블럭에서의 내부 블럭을 2개 작성, 1개 적용으로 작성 하였다.
+    - 내부 블럭에서 ingress , egress 는 SG의 inbound , outbound 와 동일하다.
+      - ingress -> inbound
+      - egress -> outbound
 
-  - 내부 블럭에서 ingress , egress 는 SG의 inbound , outbound 와 동일하다.
-    - ingress -> inbound
-    - egress -> outbound
-
-* ingress (주석 되어 있음)
-  - description
-    - 해당 SG의 inbound rule 의 설명문
-  - protocol
-    - "tcp"
-  - from_port
-    - 포트 설정 : 어디서부터 (시작점)
-  - to_port
-    - 포트 설정 : 어디까지 (종료점)
-  - cidr_blocks
-    - **[ ]** 리스트 형식으로 입력
-    - "0.0.0.0/0" 전체 IP 영역
-* egress
-  - protocol
-    - "-1"
-      - 전체 프로토콜에 대해서 가능하게 설정
-      - "-1" 은 전체 프로토콜 범위를 뜻함
-  - (해당 rule을 설정시 Outbound는 전체 허용)
+  - ingress (주석 되어 있음)
+    - description
+      - 해당 SG의 inbound rule 의 설명문
+    - protocol
+      - "tcp"
+    - from_port
+      - 포트 설정 : 어디서부터 (시작점)
+    - to_port
+      - 포트 설정 : 어디까지 (종료점)
+    - cidr_blocks
+      - **[ ]** 리스트 형식으로 입력
+      - "0.0.0.0/0" 전체 IP 영역
+  - egress
+    - protocol
+      - "-1"
+        - 전체 프로토콜에 대해서 가능하게 설정
+        - "-1" 은 전체 프로토콜 범위를 뜻함
+    - (해당 rule을 설정시 Outbound는 전체 허용)
 
 > 참고용 URL
 >

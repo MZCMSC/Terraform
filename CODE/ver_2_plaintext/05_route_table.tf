@@ -6,7 +6,7 @@ resource "aws_default_route_table" "this" {
   tags = { Name = "test-tf-vpc-default-rtb" }
 }
 
-# Public RTB
+# Public RTB (main)
 resource "aws_route_table" "pub_a_main_rtb" {
   vpc_id = aws_vpc.this.id
   tags   = { Name = "test-tf-vpc-ap-northeast-2a-public-main-rtb" }
@@ -53,46 +53,38 @@ resource "aws_route_table" "pri_c_rds_rtb" {
 resource "aws_route_table_association" "pub_a_main_rtb" {
   route_table_id = aws_route_table.pub_a_main_rtb.id
   subnet_id      = aws_subnet.main_pub_a_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 resource "aws_route_table_association" "pub_c_main_rtb" {
   route_table_id = aws_route_table.pub_c_main_rtb.id
   subnet_id      = aws_subnet.main_pub_c_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 # Private (WEB)
 resource "aws_route_table_association" "pri_a_web_rtb" {
   route_table_id = aws_route_table.pri_a_web_rtb.id
   subnet_id      = aws_subnet.web_pri_a_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_a.id
 
 }
 resource "aws_route_table_association" "pri_c_web_rtb" {
   route_table_id = aws_route_table.pri_c_web_rtb.id
   subnet_id      = aws_subnet.web_pri_c_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_c.id
 }
 
 # Private (WAS)
 resource "aws_route_table_association" "pri_a_was_rtb" {
   route_table_id = aws_route_table.pri_a_was_rtb.id
   subnet_id      = aws_subnet.was_pri_a_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_a.id
 }
 resource "aws_route_table_association" "pri_c_was_rtb" {
   route_table_id = aws_route_table.pri_c_was_rtb.id
   subnet_id      = aws_subnet.was_pri_c_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_c.id
 }
 
 # Private (RDS)
 resource "aws_route_table_association" "pri_a_rds_rtb" {
   route_table_id = aws_route_table.pri_a_rds_rtb.id
   subnet_id      = aws_subnet.rds_pri_a_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_a.id
 }
 resource "aws_route_table_association" "pri_c_rds_rtb" {
   route_table_id = aws_route_table.pri_c_rds_rtb.id
   subnet_id      = aws_subnet.rds_pri_c_subnet.id
-  # gateway_id = aws_nat_gateway.natgw_c.id
 }
