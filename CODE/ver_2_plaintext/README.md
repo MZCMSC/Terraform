@@ -22,7 +22,6 @@
 ├── elb_alb.tf
 ├── elb_alb_tg.tf
 ├── elb_alb_listener.tf
-├── elb_alb_listener_rule.tf
 ├── rds_aurora_subnet.tf
 ├── rds_aurora_pg.tf
 ├── rds_aurora.tf
@@ -113,7 +112,7 @@ terraform {
 - required_providers
   - registry.terraform.io/hashicorp/aws 에서 4.22.0 버전 사용
 
-## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 가능 `
+## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
 
 ## provider.tf
 
@@ -639,8 +638,8 @@ resource "aws_db_subnet_group" "this" {
       - A_zone(ap-northeast-2a) , C_zone(ap-northeast-2c)
 
 > 참고용 URL
-
-- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group
+>
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group
 
 ---
 
