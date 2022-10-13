@@ -1,4 +1,4 @@
-### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [02.Commands(CLI)](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md>)
+### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md) / [DOCS](https://github.com/MZCMSC/Terraform/blob/main/DOCS/README.md) / [02.Commands(CLI)](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
 
 ---
 
@@ -9,9 +9,7 @@
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/00_Terraform/README.md">Terraform</a>
     ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/README.md">Configuration Language</a>
     ├── <a href ="https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md"><i><b>Commands(CLI)</b></i></a>
-    ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/03_State/README.md">State</a>
-    ├── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/README.md">Backends</a>
-    └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/05_Functions/README.md">Functions</a>
+    └── <a href = "https://github.com/MZCMSC/Terraform/blob/main/DOCS/04_Backends/README.md">Backends</a>
 </pre>
 
 ---
@@ -59,17 +57,19 @@ All other commands:
     state              Advanced state management
 ```
 
-- [Environment Variables](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Environment_Variables/README.md>)
-- [Apply](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Apply/README.md>)
-- [Destroy](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Destroy/README.md>)
-- [Fmt](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/04_FMT/README.md>)
-- [Graph](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/05_Graph/README.md>)
-- [Import](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/06_Import/README.md>)
-- [Init](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/07_Init/README.md>)
-- [Output](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/08_Output/README.md>)
-- [Plan](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/09_Plan/README.md>)
-- [Providers](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/10_Providers/README.md>)
-- [State](<https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/11_State/README.md>)
+- [Init](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
+- [Plan](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
+- [Apply](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
+- [Destroy](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/04_Destroy/README.md)
+- [FMT](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/05_FMT/README.md)
+- [Import](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/06_Import/README.md)
+- [Output](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/07_Output/README.md)
+- [Providers](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/08_Providers/README.md)
+- [State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/09_State/README.md)
+- [Graph](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/10_Graph/README.md)
+- [Environment Variables](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/11_Environment_Variables/README.md)
+
+
 
 ---
 
