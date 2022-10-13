@@ -33,17 +33,17 @@
 ---
 
 ### 테라폼 명령어
+> **실행**
+>   `$ terraform init`
+> **계획**
+>   `$ terraform plan -out=planfile`
+> **적용**
+>   `$ terraform apply planfile`
 
-```
-실행
-$ terraform init
-
-계획
-$ terraform plan
-
-적용
-$ terraform apply
-```
+[**명령어 리스트**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
+> [`init` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
+> [`plan` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
+> [`apply` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
 
 ---
 
@@ -86,7 +86,7 @@ terraform {
 - required_providers
   - registry.terraform.io/hashicorp/aws 에서 4.22.0 버전 사용
 
-## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 가능 `
+## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
 
 ### provider 블럭
 
