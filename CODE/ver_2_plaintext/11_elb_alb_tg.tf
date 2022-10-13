@@ -19,6 +19,7 @@ resource "aws_lb_target_group" "backend_alb_tg" {
 # ++++++++++++++++++++++++++++++++++++++++++++++
 #         ALB Target Group Attachment
 # ++++++++++++++++++++++++++++++++++++++++++++++
+# Front ALB
 resource "aws_lb_target_group_attachment" "front_alb_tg_a_attach" {
   target_group_arn = aws_lb_target_group.front_alb_tg.arn
   port             = 80
@@ -29,6 +30,8 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_c_attach" {
   port             = 80
   target_id        = aws_instance.web_c.id
 }
+
+# Backend ALB
 resource "aws_lb_target_group_attachment" "backend_alb_tg_a_attach" {
   target_group_arn = aws_lb_target_group.backend_alb_tg.arn
   port             = 8080

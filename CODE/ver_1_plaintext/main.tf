@@ -126,7 +126,7 @@ resource "aws_nat_gateway" "natgw_c" {
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_default_route_table" "this" {
   default_route_table_id = aws_vpc.this.default_route_table_id
-  tags = { Name = "test-tf-vpc-default-rtb" }
+  tags                   = { Name = "test-tf-vpc-default-rtb" }
 }
 
 # Public RTB
@@ -173,47 +173,47 @@ resource "aws_route_table" "pri_c_rds_rtb" {
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Public
 resource "aws_route" "pub_a_main_rt" {
-  route_table_id = aws_route_table.pub_a_main_rtb.id
-  gateway_id = aws_internet_gateway.this.id
+  route_table_id         = aws_route_table.pub_a_main_rtb.id
+  gateway_id             = aws_internet_gateway.this.id
   destination_cidr_block = "0.0.0.0/0"
 }
 resource "aws_route" "pub_c_main_rt" {
-  route_table_id = aws_route_table.pub_c_main_rtb.id
-  gateway_id = aws_internet_gateway.this.id
+  route_table_id         = aws_route_table.pub_c_main_rtb.id
+  gateway_id             = aws_internet_gateway.this.id
   destination_cidr_block = "0.0.0.0/0"
 }
 
 # Private (WEB)
 resource "aws_route" "pri_a_web_rt" {
-  route_table_id = aws_route_table.pri_a_web_rtb.id
-  nat_gateway_id = aws_nat_gateway.natgw_a.id
+  route_table_id         = aws_route_table.pri_a_web_rtb.id
+  nat_gateway_id         = aws_nat_gateway.natgw_a.id
   destination_cidr_block = "0.0.0.0/0"
 }
 resource "aws_route" "pri_c_web_rt" {
-  route_table_id = aws_route_table.pri_c_web_rtb.id
-  nat_gateway_id = aws_nat_gateway.natgw_c.id
+  route_table_id         = aws_route_table.pri_c_web_rtb.id
+  nat_gateway_id         = aws_nat_gateway.natgw_c.id
   destination_cidr_block = "0.0.0.0/0"
 }
 # Private (WAS)
 resource "aws_route" "pri_a_was_rt" {
-  route_table_id = aws_route_table.pri_a_was_rtb.id
-  nat_gateway_id = aws_nat_gateway.natgw_a.id
+  route_table_id         = aws_route_table.pri_a_was_rtb.id
+  nat_gateway_id         = aws_nat_gateway.natgw_a.id
   destination_cidr_block = "0.0.0.0/0"
 }
 resource "aws_route" "pri_c_was_rt" {
-  route_table_id = aws_route_table.pri_c_was_rtb.id
-  nat_gateway_id = aws_nat_gateway.natgw_c.id
+  route_table_id         = aws_route_table.pri_c_was_rtb.id
+  nat_gateway_id         = aws_nat_gateway.natgw_c.id
   destination_cidr_block = "0.0.0.0/0"
 }
 # Private (RDS)
 resource "aws_route" "pri_a_rds_rt" {
-  route_table_id = aws_route_table.pri_a_rds_rtb.id
-  nat_gateway_id = aws_nat_gateway.natgw_a.id
+  route_table_id         = aws_route_table.pri_a_rds_rtb.id
+  nat_gateway_id         = aws_nat_gateway.natgw_a.id
   destination_cidr_block = "0.0.0.0/0"
 }
 resource "aws_route" "pri_c_rds_rt" {
-  route_table_id = aws_route_table.pri_c_rds_rtb.id
-  nat_gateway_id = aws_nat_gateway.natgw_c.id
+  route_table_id         = aws_route_table.pri_c_rds_rtb.id
+  nat_gateway_id         = aws_nat_gateway.natgw_c.id
   destination_cidr_block = "0.0.0.0/0"
 }
 
@@ -388,14 +388,14 @@ resource "aws_security_group_rule" "name" {
 
 # Bastion SVR SG rule
 resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
-  description               = "SSH - Bastion Server inbound rule"
-  type                      = "ingress"
-  from_port                 = 22
-  to_port                   = 22
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.bastion_sg.id
+  description       = "SSH - Bastion Server inbound rule"
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.bastion_sg.id
   # SSH 통신 허용 IP 입력
-  cidr_blocks               = ["0.0.0.0/0", ] //"211.60.50.190/32"]
+  cidr_blocks = ["0.0.0.0/0", ] //"211.60.50.190/32"]
   /* 
   211.60.50.190 = Megazone Office IP
  */
@@ -403,111 +403,111 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
 
 # WEB SVR SG rule
 resource "aws_security_group_rule" "web_ssh_ingress_rule" {
-  description               = "bastion_server to web_server with SSH"
-  type                      = "ingress"
-  from_port                 = 22
-  to_port                   = 22
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.web_sg.id
-  source_security_group_id  = aws_security_group.bastion_sg.id
+  description              = "bastion_server to web_server with SSH"
+  type                     = "ingress"
+  from_port                = 22
+  to_port                  = 22
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web_sg.id
+  source_security_group_id = aws_security_group.bastion_sg.id
 }
 resource "aws_security_group_rule" "web_service_ingress_rule" {
-  description               = "Front_ALB to Web_server"
-  type                      = "ingress"
-  from_port                 = 80
-  to_port                   = 80
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.web_sg.id
-  source_security_group_id  = aws_security_group.front_alb_sg.id
+  description              = "Front_ALB to Web_server"
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web_sg.id
+  source_security_group_id = aws_security_group.front_alb_sg.id
 }
 resource "aws_security_group_rule" "web_to_backend_return_rule" {
-  description               = "Backend_ALB to WEB_server"
-  type                      = "ingress"
-  from_port                 = 8080
-  to_port                   = 8080
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.web_sg.id
-  source_security_group_id  = aws_security_group.backend_alb_sg.id
+  description              = "Backend_ALB to WEB_server"
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.web_sg.id
+  source_security_group_id = aws_security_group.backend_alb_sg.id
 }
 
 # WAS SVR SG rule
 resource "aws_security_group_rule" "was_ssh_ingress_rule" {
-  description               = "bastion_server to was_server with SSH"
-  type                      = "ingress"
-  from_port                 = 22
-  to_port                   = 22
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.was_sg.id
-  source_security_group_id  = aws_security_group.bastion_sg.id
+  description              = "bastion_server to was_server with SSH"
+  type                     = "ingress"
+  from_port                = 22
+  to_port                  = 22
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.was_sg.id
+  source_security_group_id = aws_security_group.bastion_sg.id
 }
 resource "aws_security_group_rule" "was_service_ingress_rule" {
-  description               = "Backend_ALB to was_server "
-  type                      = "ingress"
-  from_port                 = 8080
-  to_port                   = 8080
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.was_sg.id
-  source_security_group_id  = aws_security_group.backend_alb_sg.id
+  description              = "Backend_ALB to was_server "
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.was_sg.id
+  source_security_group_id = aws_security_group.backend_alb_sg.id
 }
 resource "aws_security_group_rule" "was_to_rds_return_rule" {
-  description               = "RDS_RDS_server to WAS_server "
-  type                      = "ingress"
-  from_port                 = 3306
-  to_port                   = 3306
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.was_sg.id
-  source_security_group_id  = aws_security_group.rds_sg.id
+  description              = "RDS_RDS_server to WAS_server "
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.was_sg.id
+  source_security_group_id = aws_security_group.rds_sg.id
 }
 
 # RDS AuroraDB SG rule
 resource "aws_security_group_rule" "rds_ingress_rule" {
-  description       = "bastion_server to RDS_DB_server with SSH"
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  security_group_id = aws_security_group.rds_sg.id
+  description              = "bastion_server to RDS_DB_server with SSH"
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
   source_security_group_id = aws_security_group.bastion_sg.id
 }
 resource "aws_security_group_rule" "was_to_rds_ingress_rule" {
-  description       = "WAS_server to RDS_DB_server service rule"
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  security_group_id = aws_security_group.rds_sg.id
+  description              = "WAS_server to RDS_DB_server service rule"
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
   source_security_group_id = aws_security_group.was_sg.id
 }
 resource "aws_security_group_rule" "rds_egress_rule" {
-  description       = "RDS_DB_server outbound rule"
-  type              = "egress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  security_group_id = aws_security_group.rds_sg.id
+  description              = "RDS_DB_server outbound rule"
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
   source_security_group_id = aws_security_group.was_sg.id
 }
 
 # ALB Front SG rule
 resource "aws_security_group_rule" "front_alb_ingress_rule" {
-  description               = "Front ALB Inbound"
-  type                      = "ingress"
-  from_port                 = 80
-  to_port                   = 80
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.front_alb_sg.id
-  cidr_blocks               = ["0.0.0.0/0"]
+  description       = "Front ALB Inbound"
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.front_alb_sg.id
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 # ALB Backend SG rule
 resource "aws_security_group_rule" "backend_alb_ingress_rule" {
-  description               = "Backend ALB Inbound"
-  type                      = "ingress"
-  from_port                 = 8080
-  to_port                   = 8080
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.backend_alb_sg.id
-  cidr_blocks               = ["10.50.110.0/24", "10.50.120.0/24", "10.50.130.0/24", "10.50.140.0/24"]
+  description       = "Backend ALB Inbound"
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  security_group_id = aws_security_group.backend_alb_sg.id
+  cidr_blocks       = ["10.50.110.0/24", "10.50.120.0/24", "10.50.130.0/24", "10.50.140.0/24"]
 }
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -522,17 +522,17 @@ resource "aws_eip" "bastion_eip" {
 
 # EC2 Instance
 resource "aws_instance" "bastion" {
-  ami               = "ami-0fd0765afb77bcca7"
-  availability_zone = "ap-northeast-2a"
-  instance_type     = "t2.micro"
+  ami                    = "ami-0fd0765afb77bcca7"
+  availability_zone      = "ap-northeast-2a"
+  instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.bastion_sg.id, ]
-  key_name          = "tf_test_key"
-  subnet_id         = aws_subnet.main_pub_a_subnet.id
+  key_name               = "tf_test_key"
+  subnet_id              = aws_subnet.main_pub_a_subnet.id
 
   root_block_device {
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
+    tags        = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
   lifecycle { create_before_destroy = true }
   # disable_api_termination = true
@@ -544,12 +544,12 @@ resource "aws_instance" "bastion" {
 # Service Server
 # WEB Server
 resource "aws_instance" "web_a" {
-  ami               = "ami-0fd0765afb77bcca7"
-  availability_zone = "ap-northeast-2a"
-  instance_type     = "t2.micro"
+  ami                    = "ami-0fd0765afb77bcca7"
+  availability_zone      = "ap-northeast-2a"
+  instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name          = "tf_test_key"
-  subnet_id         = aws_subnet.web_pri_a_subnet.id
+  key_name               = "tf_test_key"
+  subnet_id              = aws_subnet.web_pri_a_subnet.id
 
   user_data = <<-EOF
         #!/bin/bash
@@ -564,18 +564,18 @@ resource "aws_instance" "web_a" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-vpc-ap-northeast-2a-web" }
+    tags        = { Name = "test-tf-vpc-ap-northeast-2a-web" }
   }
   lifecycle { create_before_destroy = true }
   tags = { Name = "test-tf-vpc-ap-northeast-2a-web" }
 }
 resource "aws_instance" "web_c" {
-  ami               = "ami-0fd0765afb77bcca7"
-  availability_zone = "ap-northeast-2c"
-  instance_type     = "t2.micro"
+  ami                    = "ami-0fd0765afb77bcca7"
+  availability_zone      = "ap-northeast-2c"
+  instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name          = "tf_test_key"
-  subnet_id         = aws_subnet.web_pri_c_subnet.id
+  key_name               = "tf_test_key"
+  subnet_id              = aws_subnet.web_pri_c_subnet.id
 
   user_data = <<-EOF
         #!/bin/bash
@@ -590,7 +590,7 @@ resource "aws_instance" "web_c" {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-vpc-ap-northeast-2c-web" }
+    tags        = { Name = "test-tf-vpc-ap-northeast-2c-web" }
   }
   lifecycle { create_before_destroy = true }
   tags = { Name = "test-tf-vpc-ap-northeast-2c-web" }
@@ -598,35 +598,35 @@ resource "aws_instance" "web_c" {
 
 # WAS Server
 resource "aws_instance" "was_a" {
-  ami               = "ami-0fd0765afb77bcca7"
-  availability_zone = "ap-northeast-2a"
-  instance_type     = "t2.micro"
+  ami                    = "ami-0fd0765afb77bcca7"
+  availability_zone      = "ap-northeast-2a"
+  instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.was_sg.id]
-  key_name          = "tf_test_key"
-  subnet_id         = aws_subnet.was_pri_a_subnet.id
+  key_name               = "tf_test_key"
+  subnet_id              = aws_subnet.was_pri_a_subnet.id
 
   ebs_block_device {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-vpc-ap-northeast-2a-was" }
+    tags        = { Name = "test-tf-vpc-ap-northeast-2a-was" }
   }
   lifecycle { create_before_destroy = true }
   tags = { Name = "test-tf-vpc-ap-northeast-2a-was" }
 }
 resource "aws_instance" "was_c" {
-  ami               = "ami-0fd0765afb77bcca7"
-  availability_zone = "ap-northeast-2c"
-  instance_type     = "t2.micro"
+  ami                    = "ami-0fd0765afb77bcca7"
+  availability_zone      = "ap-northeast-2c"
+  instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.was_sg.id]
-  key_name          = "tf_test_key"
-  subnet_id         = aws_subnet.was_pri_c_subnet.id
+  key_name               = "tf_test_key"
+  subnet_id              = aws_subnet.was_pri_c_subnet.id
 
   ebs_block_device {
     device_name = "/dev/xvda"
     volume_size = 8
     volume_type = "gp3"
-    tags = { Name = "test-tf-vpc-ap-northeast-2c-was" }
+    tags        = { Name = "test-tf-vpc-ap-northeast-2c-was" }
   }
   lifecycle { create_before_destroy = true }
   tags = { Name = "test-tf-vpc-ap-northeast-2c-was" }
@@ -645,12 +645,12 @@ resource "aws_lb" "front_alb" {
     aws_subnet.main_pub_c_subnet.id
   ]
   security_groups = [
-    aws_security_group.front_alb_sg.id, 
+    aws_security_group.front_alb_sg.id,
   ]
-      depends_on = [ 
-          aws_lb_target_group.front_alb_tg
+  depends_on = [
+    aws_lb_target_group.front_alb_tg
   ]
-  tags = {Name = "test-tf-ext-front-alb"}
+  tags = { Name = "test-tf-ext-front-alb" }
 }
 
 # backend
@@ -665,11 +665,11 @@ resource "aws_lb" "backend_alb" {
   security_groups = [
     aws_security_group.backend_alb_sg.id
   ]
-  depends_on = [ 
-      aws_lb_target_group.backend_alb_tg
+  depends_on = [
+    aws_lb_target_group.backend_alb_tg
   ]
 
-  tags = {Name = "test-tf-int-backend-alb"}
+  tags = { Name = "test-tf-int-backend-alb" }
 }
 
 # ++++++++++++++++++++++++++++++++++++++++++++++
@@ -764,8 +764,6 @@ resource "aws_db_subnet_group" "this" {
 # Cluster PG type
 
 resource "aws_rds_cluster_parameter_group" "this" {
-  # description = 
-  # name   = "test-tf-rds-cluster-mysql3-01-0-cpg"
   name   = "test-tf-aurora-mysql8-0"
   family = "aurora-mysql8.0"
 
@@ -784,8 +782,6 @@ resource "aws_rds_cluster_parameter_group" "this" {
 #                   PG type
 # ++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_db_parameter_group" "this" {
-  # description = 
-  # name   = "test-tf-rds-cluster-mysql3-01-0-pg"
   name   = "test-tf-aurora-mysql8-0"
   family = "aurora-mysql8.0"
 }
@@ -795,9 +791,9 @@ resource "aws_db_parameter_group" "this" {
 # ++++++++++++++++++++++++++++++++++++++++++++++
 # Aurora Cluster
 resource "aws_rds_cluster" "this" {
-  cluster_identifier = "test-tf-rds-aurora-cluster"
-  db_subnet_group_name             = aws_db_subnet_group.this.id
-  
+  cluster_identifier   = "test-tf-rds-aurora-cluster"
+  db_subnet_group_name = aws_db_subnet_group.this.id
+
   engine         = "aurora-mysql"
   engine_version = "8.0.mysql_aurora.3.02.0"
 
@@ -809,7 +805,7 @@ resource "aws_rds_cluster" "this" {
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
 
-  skip_final_snapshot       = true
+  skip_final_snapshot = true
 
   db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.this.id
   db_instance_parameter_group_name = aws_db_parameter_group.this.id
@@ -820,8 +816,8 @@ resource "aws_rds_cluster_instance" "this" {
   count      = 2
   identifier = "test-tf-rds-aurora-${count.index}"
 
-  cluster_identifier = aws_rds_cluster.this.id
-  db_subnet_group_name    = aws_db_subnet_group.this.id
+  cluster_identifier   = aws_rds_cluster.this.id
+  db_subnet_group_name = aws_db_subnet_group.this.id
 
 
   instance_class = "db.t3.medium"

@@ -15,14 +15,13 @@
 ├── internat_gateway.tf
 ├── nat_gateway.tf
 ├── route_table.tf
-├── route_table_routetf
+├── route_table_route.tf
 ├── security_group.tf
 ├── security_group_rule.tf
 ├── ec2_instance.tf
 ├── elb_alb.tf
 ├── elb_alb_tg.tf
 ├── elb_alb_listener.tf
-├── elb_alb_listener_rule.tf
 ├── rds_aurora_subnet.tf
 ├── rds_aurora_pg.tf
 ├── rds_aurora.tf
@@ -113,7 +112,7 @@ terraform {
 - required_providers
   - registry.terraform.io/hashicorp/aws 에서 4.22.0 버전 사용
 
-## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 가능 `
+## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
 
 ## provider.tf
 
@@ -123,7 +122,7 @@ providre "aws" {
 }
 ```
 
-- provider 는 "aws"로 사용, 리전은 "ap-northeast-2" Seoul 리전으로 사용을 설정
+- provider 는 "`aws`"로 사용, 리전은 "`ap-northeast-2`" Seoul 리전으로 사용을 설정
 
 ---
 
@@ -165,7 +164,7 @@ resource "aws_subnet" "main_pub_a_subnet" {
 
 - **resource "aws_subnet" "main_pub_a_subnet" {...} 블럭 생성 진행**
   - vpc_id
-    - aws*vpc*.this.id
+    - aws_vpc.this.id
     - 바로 위에 설정한 "resouce" "aws_vpc" "this" 의 코드 블럭(생성된 정보값)의 id 값을 참조하도록 설정
   - cidr_block
     - "10.50.10.0/24"
@@ -262,7 +261,6 @@ resource "aws_route_table" "pub_a_main_rtb" {
 resource "aws_route_table_association" "pub_a_main_rtb" {
   route_table_id = aws_route_table.pub_a_main_rtb.id
   subnet_id      = aws_subnet.main_pub_a_subnet.id
-  # gateway_id = aws_internet_gateway.this.id
 }
 ...(생략) (필요한 갯수 만큼 설정)
 ```
@@ -277,14 +275,29 @@ resource "aws_route_table_association" "pub_a_main_rtb" {
     - 생성된 RTB 의 id 참조하여 설정
   - subnet_id
     - 생성된 서브넷 의 id 참조하여 설정
-  - gateway_id
-    - IGW 및 NAT 연결 가능한 식별자 설정을 보여주고자 작성
-    - 해당 항목은 subnet_id 와 중복하여 설정 불가.
 
 > 참고용 URL
 >
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
+
+---
+
+## route_table_route.tf
+
+```hcl
+resource "aws_route" "pub_a_main_rt" {
+  route_table_id = aws_route_table.pub_a_main_rtb.id
+  gateway_id = aws_internet_gateway.this.id
+  destination_cidr_block = "0.0.0.0/0"
+}
+```
+
+- **resource "aws_route" "pub_a_main_rt" {...} 블럭 생성 진행**
+  - route_table_id
+    - 생성된 RTB 의 id 참조하여 설정
+  - gateway_id
+    - 생성된 IGW 의 id 참조하여 설정
 
 ---
 
@@ -311,7 +324,7 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = { Name = "test-tf-bastion-sg" }
-}[](https://class101.net/)
+}
 ...(생략) (필요한 서브넷의 갯수 만큼 설정)
 ```
 
@@ -324,30 +337,29 @@ resource "aws_security_group" "bastion_sg" {
     - 생성하고자 하는 SG의 생성 영역 VPC기준
     - SG의 경우 각각 VPC에 종속 되는 리소스
 
-* SG 블럭에서의 내부 블럭을 2개 작성, 1개 적용으로 작성 하였다.
+  - SG 블럭에서의 내부 블럭을 2개 작성, 1개 적용으로 작성 하였다.
+    - 내부 블럭에서 ingress , egress 는 SG의 inbound , outbound 와 동일하다.
+      - ingress -> inbound
+      - egress -> outbound
 
-  - 내부 블럭에서 ingress , egress 는 SG의 inbound , outbound 와 동일하다.
-    - ingress -> inbound
-    - egress -> outbound
-
-* ingress (주석 되어 있음)
-  - description
-    - 해당 SG의 inbound rule 의 설명문
-  - protocol
-    - "tcp"
-  - from_port
-    - 포트 설정 : 어디서부터 (시작점)
-  - to_port
-    - 포트 설정 : 어디까지 (종료점)
-  - cidr_blocks
-    - **[ ]** 리스트 형식으로 입력
-    - "0.0.0.0/0" 전체 IP 영역
-* egress
-  - protocol
-    - "-1"
-      - 전체 프로토콜에 대해서 가능하게 설정
-      - "-1" 은 전체 프로토콜 범위를 뜻함
-  - (해당 rule을 설정시 Outbound는 전체 허용)
+  - ingress (주석 되어 있음)
+    - description
+      - 해당 SG의 inbound rule 의 설명문
+    - protocol
+      - "tcp"
+    - from_port
+      - 포트 설정 : 어디서부터 (시작점)
+    - to_port
+      - 포트 설정 : 어디까지 (종료점)
+    - cidr_blocks
+      - **[ ]** 리스트 형식으로 입력
+      - "0.0.0.0/0" 전체 IP 영역
+  - egress
+    - protocol
+      - "-1"
+        - 전체 프로토콜에 대해서 가능하게 설정
+        - "-1" 은 전체 프로토콜 범위를 뜻함
+    - (해당 rule을 설정시 Outbound는 전체 허용)
 
 > 참고용 URL
 >
@@ -408,18 +420,16 @@ resource "aws_instance" "bastion" {
   ami               = "ami-0fd0765afb77bcca7"
   availability_zone = "ap-northeast-2a"
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.bastion_sg.id, ]
+  vpc_security_group_ids   = [aws_security_group.bastion_sg.id, ]
   key_name          = "tf_test_key"
   subnet_id         = aws_subnet.main_pub_a_subnet.id
 
   root_block_device {
     volume_size = 8
     volume_type = "gp3"
-    # delete_on_termination = true
     tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
   }
   lifecycle { create_before_destroy = true }
-  # disable_api_termination = true
   tags = { Name = "test-tf-vpc-ap-northeast-2a-bastion" }
 }
 
@@ -439,22 +449,19 @@ resource "aws_eip" "bastion_eip" {
     - EC2 instance 생성시 위치 하는 AZ
   - instance_type
     - EC2 instance 생성시 type
-  - security_groups
+  - vpc_security_group_ids
     - EC2 instance 생성시 Attach 진행 하는 SG
     - 표현값의 경우 "${aws_security_group.bastion_sg.id}" or aws_security_group.bastion_sg.id 사용가능
   - key_name
     - EC2 instance 생성시 적용 \*.pem key (key_pair)
-    - \***\*`빠른 진행을 위해서 기존 AWS key_pair 사용`\*\***
+    - **_`빠른 진행을 위해서 기존 AWS key_pair 사용`_**
   - subnet_id
-
     - EC2 instance 가 생성 되는 subnet 위치
-
+>
   - root_block_device {...} 내부 블럭
     - EC2 instance 생성시 기본 EBS(root_block)
     - "gp3" 타입의 "8" Gib 로 생성
-  - delete_on_termination (주석)
-    - 해당 설정문은 AWS의 \***\*"termination protection"\*\*** 설정 옵션
-
+> 
 - **resource "aws_eip" "bastion_eip" {...} 블럭 생성 진행**
   - instance
     - 생성된 EIP 리소스를 설정된 EC2 instance 에 Associate 진행
@@ -542,7 +549,7 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
     - TG의 Name 설정
   - vpc_id
     - 위에서 생성한 VPC의 id값을 참조
-    - [resource] aws_vpc.this 의 id 값(속성) 참조
+    - aws_vpc.this 의 id 값(속성) 참조
   - target_type
     - TG의 타입을 instance 로 설정
   - port
@@ -592,7 +599,7 @@ resource "aws_lb_listener" "front_alb_listener" {
     - 통신 하고자 하는 port 설정
   - protocol
     - 통신 하고자 하는 프로토콜 설정
-  - \***\*default_action 내부 블럭\*\***
+  - **default_action 내부 블럭**
     - type
       - 액션의 타입을 **"forward"**(전달) 설정
         - 타입은 **"forward"**, **"redirect"**, **"fixed-response"**, **"authenticate-cognito"**, **"authenticate-oidc"** 가 있다.
@@ -631,8 +638,8 @@ resource "aws_db_subnet_group" "this" {
       - A_zone(ap-northeast-2a) , C_zone(ap-northeast-2c)
 
 > 참고용 URL
-
-- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group
+>
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group
 
 ---
 

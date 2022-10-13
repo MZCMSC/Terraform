@@ -39,3 +39,38 @@ resource "aws_rds_cluster_instance" "this" {
 
   db_parameter_group_name = aws_db_parameter_group.this.id
 }
+
+
+
+
+# # Aurora RDS 특성 고려
+# resource "aws_rds_cluster_instance" "write" {
+#   identifier = "test-tf-rds-aurora-wrire"
+
+#   cluster_identifier = aws_rds_cluster.this.id
+#   db_subnet_group_name    = aws_db_subnet_group.this.id
+
+#   availability_zone = "ap-northeast-2a"
+
+#   instance_class = "db.t3.medium"
+
+#   engine         = "aurora-mysql"
+#   engine_version = "8.0.mysql_aurora.3.02.0"
+
+#   db_parameter_group_name = aws_db_parameter_group.this.id
+# }
+# resource "aws_rds_cluster_instance" "read_1" {
+#   identifier = "test-tf-rds-aurora-read-1"
+
+#   cluster_identifier = aws_rds_cluster.this.id
+#   db_subnet_group_name    = aws_db_subnet_group.this.id
+
+#   availability_zone = "ap-northeast-2c"
+
+#   instance_class = "db.t3.medium"
+
+#   engine         = "aurora-mysql"
+#   engine_version = "8.0.mysql_aurora.3.02.0"
+
+#   db_parameter_group_name = aws_db_parameter_group.this.id
+# }
