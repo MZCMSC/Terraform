@@ -71,6 +71,6 @@ resource "aws_instance" "example" {
 
 ### [이전 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/01_Files_and_Directories/README.md)
 
-### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/03_Resourcess/README.md)
+### [다음 페이지](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/03_Resources/README.md)
 
 ### [HOME](https://github.com/MZCMSC/Terraform/blob/main/README.md)
