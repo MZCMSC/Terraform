@@ -27,7 +27,7 @@
 
 ---
 
-## 06. State
+### State
 
 > Terraform은 인프라 및 구성에 대한 상태를 저장해야 합니다.
 > 이 상태는 Terraform에서 실제 리소스를 구성에 매핑하고 메타 데이터를 추적하며 대규모 인프라의 성능을 향상 시키는데 사용 됩니다.
@@ -37,9 +37,9 @@
 - [Remote State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/02_Remote_State/README.md)
 - [State Locking](https://github.com/MZCMSC/Terraform/blob/main/DOCS/06_State/03_State_Locking/README.md)
 
-Terraform은 관리되는 인프라 및 구성에 대한 상태를 저장해야 합니다. 이 상태는 Terraform에서 실제 리소스를 구성에 매핑하고 메타데이터를 추적하며 대규모 인프라의 성능을 향상시키는 데 사용됩니다.
+> Terraform은 관리되는 인프라 및 구성에 대한 상태를 저장해야 합니다. 이 상태는 Terraform에서 실제 리소스를 구성에 매핑하고 메타데이터를 추적하며 대규모 인프라의 성능을 향상시키는 데 사용됩니다.
 
-## State는 기본적으로 "terraform.tfstate"라는 이름의 로컬 파일에 저장되지만 원격으로 저장할 수도 있어 팀 환경에서 더 잘 작동합니다.
+> State는 기본적으로 "terraform.tfstate"라는 이름의 로컬 파일에 저장되지만 원격으로 저장할 수도 있어 팀 환경에서 더 잘 작동합니다.
 
 
 ---
