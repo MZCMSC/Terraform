@@ -1,7 +1,3 @@
-# output "vpc_id" {
-#   value = data.terraform_remote_state.vpc.outputs.vpc_id
-# }
-
 output "bastion_sg_id" {
   description = "Bastion Security Group"
   value       = aws_security_group.bastion_sg.id

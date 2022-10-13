@@ -63,8 +63,7 @@
 
 ---
 
-## main.tf
-
+## `main.tf`
 ### terraform 블럭
 
 ```hcl
@@ -80,7 +79,6 @@ terraform {
 ```
 
 - required_version
-
   - 실행 위치 디바이스의 테라폼 버전 관련 설정
 
 - required_providers
@@ -132,7 +130,6 @@ resource "aws_vpc" "this" {
 ```
 
 - 블럭 타입은 "resource", 블럭 라벨 1은 "aws_vpc" , 블럭 라벨 2는 "this"
-
   - 블럭 라벨 2는 Code 작성자가 임의로 설정 가능하다.
 
 - 식별자는 2개, 표현값도 2개 설정되어 있다.
@@ -195,6 +192,7 @@ resource "aws_internet_gateway" "this" {
 ```
 
 - 블럭 타입은 "resource", 블럭 라벨 1은 "aws_internet_gateway" , 블럭 라벨 2는 "this"
+
 - 식별자 및 표현값은 각각 2개
   - 식별자
     - vpc_id
@@ -235,7 +233,6 @@ resource "aws_nat_gateway" "natgw_a" {
 > **NAT Gateway 의 경우 Public 으로 생성 진행 Public으로 생성시 EIP가 필요하여 EIP 설정후 대상 NAT Gateway에 Attach**
 
 - **resource "aws_eip" "natgw_a_eip" {...} 블럭 생성 진행**
-
   - 해당 블럭의 내용중 lifecycle은 resource 블럭의 Meta-Arguments 값이다.
     - 기존에 EIP가 존재하다고 가정하면, 기존 EIP를 유지한 상태에서 신규로 생성 및 연결후 기존 EIP를 제거 설정 구문
 
@@ -308,12 +305,10 @@ resource "aws_route_table_association" "pub_a_main_rtb" {
 ```
 
 - **resource "aws_route_table" "pub_a_main_rtb" {...} 블럭 생성 진행**
-
   - vpc_id
     - 위에서 생성한 VPC 정보값 참조 설정
 
 - **resource "aws_route" "pub_a_main_rt" {...} 블럭 생성 진행**
-
   - route_table_id
     - 생성된 RTB 의 id 참조하여 설정
   - gateway_id
@@ -359,44 +354,44 @@ resource "aws_security_group" "bastion_sg" {
   }
   tags = { Name = "test-tf-bastion-sg" }
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_security_group" "bastion_sg" {...} 블럭 생성 진행**
   - description
     - 생성하고자 하는 SG의 설명문 항목
+  
   - name
     - 생성하고자 하는 SG의 이름 항목
+  
   - vpc_id
     - 생성하고자 하는 SG의 생성 영역 VPC기준
     - SG의 경우 각각 VPC에 종속 되는 리소스
 
-* SG 블럭에서의 내부 블럭을 2개 작성, 1개 적용으로 작성 하였다.
+  - SG 블럭에서의 내부 블럭을 2개 작성, 1개 적용으로 작성 하였다.
+    - 내부 블럭에서 ingress , egress 는 SG의 inbound , outbound 와 동일하다.
+      - ingress -> inbound
+      - egress -> outbound
 
-  - 내부 블럭에서 ingress , egress 는 SG의 inbound , outbound 와 동일하다.
-    - ingress -> inbound
-    - egress -> outbound
+  - ingress (주석 되어 있음)
+    - description
+      - 해당 SG의 inbound rule 의 설명문
+    - protocol
+      - "tcp"
+    - from_port
+      - 포트 설정 : 어디서부터 (시작점)
+    - to_port
+      - 포트 설정 : 어디까지 (종료점)
+    - cidr_blocks
+      - **[ ]** 리스트 형식으로 입력
+      - "0.0.0.0/0" 전체 IP 영역
 
-* ingress (주석 되어 있음)
-
-  - description
-    - 해당 SG의 inbound rule 의 설명문
-  - protocol
-    - "tcp"
-  - from_port
-    - 포트 설정 : 어디서부터 (시작점)
-  - to_port
-    - 포트 설정 : 어디까지 (종료점)
-  - cidr_blocks
-    - **[ ]** 리스트 형식으로 입력
-    - "0.0.0.0/0" 전체 IP 영역
-
-* egress
-  - protocol
-    - "-1"
-      - 전체 프로토콜에 대해서 가능하게 설정
-      - "-1" 은 전체 프로토콜 범위를 뜻함
-  - (해당 rule을 설정시 Outbound는 전체 허용)
+  - egress
+    - protocol
+      - "-1"
+        - 전체 프로토콜에 대해서 가능하게 설정
+        - "-1" 은 전체 프로토콜 범위를 뜻함
+    - (해당 rule을 설정시 Outbound는 전체 허용)
 
 > 참고용 URL
 >
@@ -421,7 +416,7 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
   211.60.50.190 = Megazone Office IP
  */
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {...} 블럭 생성 진행**
@@ -478,25 +473,28 @@ resource "aws_eip" "bastion_eip" {
   instance = aws_instance.bastion.id
   tags     = { Name = "test-tf-vpc-ap-northeast-2a-bastion-eip" }
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_instance" "bastion" {...} 블럭 생성 진행**
-
   - ami
     - EC2 instance 생성시 필요한 AMI 이미지
+
   - availability_zone
     - EC2 instance 생성시 위치 하는 AZ
+
   - instance_type
     - EC2 instance 생성시 type
+
   - security_groups
     - EC2 instance 생성시 Attach 진행 하는 SG
     - 표현값의 경우 "${aws_security_group.bastion_sg.id}" or aws_security_group.bastion_sg.id 사용가능
+
   - key_name
     - EC2 instance 생성시 적용 \*.pem key (key_pair)
     - **`빠른 진행을 위해서 기존 AWS key_pair 사용`**
-  - subnet_id
 
+  - subnet_id
     - EC2 instance 가 생성 되는 subnet 위치
 
   - root_block_device {...} 내부 블럭
@@ -520,7 +518,6 @@ resource "aws_eip" "bastion_eip" {
 ---
 
 ### **ELB(Elastic Load Balancing)**
-
 #### ALB(Application Load Balancers) 블럭
 
 ```hcl
@@ -537,7 +534,7 @@ resource "aws_lb" "front_alb" {
   ]
   tags = {Name = "test-tf-ext-front-alb"}
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_lb" "front_alb" {...} 블럭 생성 진행**
@@ -632,7 +629,7 @@ resource "aws_lb_listener" "front_alb_listener" {
   }
   tags = { Name = "test-tf-vpc-front-alb-listener" }
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_lb_listener" "front_alb_listener" {...} 블럭 생성 진행**
@@ -754,8 +751,6 @@ resource "aws_rds_cluster" "this" {
   engine                           = "aurora-mysql"
   engine_version                   = "8.0.mysql_aurora.3.02.0"
 
-  availability_zones               = ["ap-northeast-2a", "ap-northeast-2c"]
-
   database_name                    = "testterraformdb"
   master_username                  = "admin"
   master_password                  = "DBAdmin1004"
@@ -784,24 +779,24 @@ resource "aws_rds_cluster" "this" {
   - engine_version
 
     - 클러스터에서 사용할 엔진 버전 설정
-
-  - availability_zones
-    - 클러스터에서 사용할 AZs(가용역역)를 설정
+    
   - database_name
     - 데이터베이스의 name 설정
+  
   - master_username
     - 데이터베이스의 사용자(계정) 설정
+  
   - master_password
     - 데이터베이스의 사용자 인증용 암호 설정
+  
   - port
     - 클러스터에서 통신 하고자 하는 port 설정
+  
   - vpc_security_group_ids
-
     - **[ ]** 리스트 형식으로 입력
     - 클러스터에서 사용 하고자 하는 SG 설정
 
   - skip_final_snapshot
-
     - 마지막 스냅샷 생성 여부 설정
     - ture 설정시 스냅샷 생성 안함
       - default 설정값은 **`false`**
@@ -809,6 +804,7 @@ resource "aws_rds_cluster" "this" {
 
   - db_cluster_parameter_group_name
     - 위에서 생성한 클러스터 파라미터 그룹을 설정
+
   - db_instance_parameter_group_name
     - 위에서 생성한 파라미터 그룹을 설정
 
@@ -833,7 +829,6 @@ resource "aws_rds_cluster_instance" "this" {
   engine            = "aurora-mysql"
   engine_version    = "8.0.mysql_aurora.3.02.0"
 
-
   apply_immediately = false
 
   copy_tags_to_snapshot = false
@@ -846,23 +841,23 @@ resource "aws_rds_cluster_instance" "this" {
 
   - count
     - 생성하고자 하는 인스턴스 갯수
-  - identifier
 
+  - identifier
     - 생성하고자 하는 인스턴스의 식별자(명칭/이름)
       - count.index 사용하여 생성되는 순번 지정
 
   - cluster_identifier
     - 위에서 생성한 클러스터 설정
-  - db_subnet_group_name
 
+  - db_subnet_group_name
     - 위에서 생성한 서브넷 그룹 설정
 
   - instance_class
-
     - RDS 인스턴스 생성시 type 설정
 
   - engine
     - RDS 인스턴스 생성시 엔진 설정
+
   - engine_version
     - RDS 인스턴스 생성시 엔진 버전 설정
       - 선택 가능한 엔진 버전

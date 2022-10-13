@@ -6,6 +6,7 @@ data "terraform_remote_state" "vpc" {
     region = "ap-northeast-2"
   }
 }
+
 data "terraform_remote_state" "sg" {
   backend = "s3"
   config = {

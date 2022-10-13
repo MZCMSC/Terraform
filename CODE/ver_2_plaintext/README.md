@@ -325,7 +325,7 @@ resource "aws_security_group" "bastion_sg" {
   }
   tags = { Name = "test-tf-bastion-sg" }
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_security_group" "bastion_sg" {...} 블럭 생성 진행**
@@ -384,7 +384,7 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
   211.60.50.190 = Megazone Office IP
  */
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {...} 블럭 생성 진행**
@@ -438,7 +438,7 @@ resource "aws_eip" "bastion_eip" {
   instance = aws_instance.bastion.id
   tags     = { Name = "test-tf-vpc-ap-northeast-2a-bastion-eip" }
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_instance" "bastion" {...} 블럭 생성 진행**
@@ -494,7 +494,7 @@ resource "aws_lb" "front_alb" {
   ]
   tags = {Name = "test-tf-ext-front-alb"}
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_lb" "front_alb" {...} 블럭 생성 진행**
@@ -589,7 +589,7 @@ resource "aws_lb_listener" "front_alb_listener" {
   }
   tags = { Name = "test-tf-vpc-front-alb-listener" }
 }
-...(생략) (필요한 서브넷의 갯수 만큼 설정)
+...(생략) (필요한 갯수 만큼 설정)
 ```
 
 - **resource "aws_lb_listener" "front_alb_listener" {...} 블럭 생성 진행**

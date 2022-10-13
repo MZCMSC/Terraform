@@ -20,9 +20,7 @@
 # #
 # # }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Bastion SVR SG
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
   description       = "SSH - Bastion Server inbound rule"
   type              = "ingress"
@@ -38,9 +36,7 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
  */
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # WEB SVR SG
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_security_group_rule" "web_ssh_ingress_rule" {
   description       = "bastion_server to web_server with SSH"
   type              = "ingress"
@@ -72,9 +68,7 @@ resource "aws_security_group_rule" "web_to_backend_return_rule" {
   source_security_group_id = aws_security_group.backend_alb_sg.id
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # WAS SVR SG
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_security_group_rule" "was_ssh_ingress_rule" {
   description       = "bastion_server to was_server with SSH"
   type              = "ingress"
@@ -106,9 +100,7 @@ resource "aws_security_group_rule" "was_to_rds_return_rule" {
   source_security_group_id = aws_security_group.rds_sg.id
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # RDS AuroraDB SG
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_security_group_rule" "rds_ingress_rule" {
   description       = "bastion_server to RDS_DB_server"
   type              = "ingress"
@@ -120,11 +112,8 @@ resource "aws_security_group_rule" "rds_ingress_rule" {
   source_security_group_id = aws_security_group.bastion_sg.id
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ELB SG (ALB type)
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Front
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_security_group_rule" "alb_front_ingress_rule" {
   description       = "ELB(ALB type) Inbound"
   type              = "ingress"
@@ -136,9 +125,7 @@ resource "aws_security_group_rule" "alb_front_ingress_rule" {
   cidr_blocks = ["0.0.0.0/0", ]
 }
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Backend
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_security_group_rule" "alb_backend_ingress_rule" {
   description       = "ELB(ALB type) Inbound - WEB to Backend"
   type              = "ingress"
