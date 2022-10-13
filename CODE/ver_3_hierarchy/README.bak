@@ -1,4 +1,5 @@
 # Code guide
+
 ## AWS resource(서비스) 단위로 폴더 구성
 ---
 ### 폴더 및 파일 구성
@@ -94,15 +95,15 @@
 >   `$ terraform plan -out=planfile`
 > **적용**
 >   `$ terraform apply planfile`
-
-[**명령어 참고 URL**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
-> [`init` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
-> [`plan` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
-> [`apply` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
+> > [**명령어 리스트**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
+> > > [`init` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
+> > > [`plan` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
+> > > [`apply` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
 
 ---
 
 ### 사용된 리소스 블럭
+
 ```
 1. terraform    block
 2. provider     block
@@ -122,6 +123,7 @@
 # S3 Folder
 
 > 폴더 항목
+>
 > ```
 > 00_S3
 > ├── main.tf
@@ -133,6 +135,7 @@
 ---
 
 > 명령어
+>
 > ```
 > $ cd 00_S3
 >
@@ -158,6 +161,7 @@ terraform {
 ```
 
 - required_version
+
   - 실행 위치 디바이스의 테라폼 버전 관련 설정
 
 - required_providers
@@ -166,6 +170,7 @@ terraform {
 ---
 
 ## 00_S3/provider.tf
+
 ```hcl
 provider "aws" {
   region = "ap-northeast-2"
@@ -176,6 +181,7 @@ provider "aws" {
 ---
 
 ## 00_S3/state-backend.tf
+
 ```hcl
 resource "aws_s3_bucket" "this" {
   bucket = "test-terraform-state-backend-msc"
@@ -217,14 +223,16 @@ resource "aws_dynamodb_table" "this" {
 }
 
 ```
+
 - **resource "aws_s3_bucket" "this" {...} 블럭 생성 진행**
+
   - bucket
     - 생성 진행할 bucket 설정
 
 - **resource "aws_s3_bucket_versioning" "this" {...} 블럭 생성 진행**
+
   - bucket
     - 위에서 생성한 bucket 설정
-
   - versioning_configuration
     - Versioning 활성화 여부 확인 내부 블럭
       - "Enabled" 설정
@@ -232,29 +240,22 @@ resource "aws_dynamodb_table" "this" {
 - **resource "aws_s3_bucket_acl" "this" {...} 블럭 생성 진행**
   - bucket
     - 위에서 생성한 bucket 설정
-
   - acl
     - bucket의 타입(public / private) 설정
       - "private" 설정
-
 - **resource "aws_s3_bucket_server_side_encryption_configuration" "this" {...} 블럭 생성 진행**
   - bucket
     - 위에서 생성한 bucket 설정
-
   - rule
     - apply_server_side_encryption_by_default 서버측 암호화 설정
       - "AES256" 암호화 알고리즘으로 설정
-
 - **resource "aws_dynamodb_table" "this" {...} 블럭 생성 진행**
   - name
     - 생성 진행할 DynamoDB table name 설정
-
   - billing_mode
     - 빌링 모드 설정
-
   - hash_key
     - 해쉬 키 설정
-
   - attribute 내부 블럭
     - hash_key의 속성 설정
 
@@ -277,6 +278,7 @@ resource "aws_dynamodb_table" "this" {
 ---
 
 # VPC Folder
+
 > 폴더 항목
 >
 > ```
@@ -307,6 +309,7 @@ resource "aws_dynamodb_table" "this" {
 ---
 
 ## 01_VPC/main.tf
+
 ```hcl
 terraform {
   required_version = ">= 1.2.2"
@@ -336,16 +339,12 @@ terraform {
 - **backend**
   - bucket
     - 설정하고자 하는 S3 bucket 이름 설정
-
   - dynamodb_table
     - 활용하고자 하는 dynamodb 테이블 설정
-
   - key
     - S3 bucket의 위치/파일명을 설정
-
   - region
     - S3 bucket의 지역명(리전)을 설정
-
   - encrypt
     - encrypt 사용 여부 설정
 
@@ -368,6 +367,7 @@ terraform {
 ---
 
 ## 01_VPC/output.tf
+
 ```hcl
 output "vpc_id" {
   value = aws_vpc.this.id
@@ -412,16 +412,20 @@ output "igw_id" {
   value = aws_internet_gateway.this.id
 }
 ```
+
 - **output "vpc_id" {...} 블럭 생성 진행**
+
   - value
     - aws_vpc.this.id
       - vpc.tf 파일 **resource "aws_vpc" "this" {...} 블럭** 에서 생성된 정보중 id 값을 **output**에 기록
 
 - **output "pub_a_subnet_id" {...} 블럭 생성 진행**
+
   - value - aws_subnet.main_pub_a_subnet.id - subnet.tf 파일 **resource "aws_subnet" "main_pub_a_subnet" {...} 블럭** 에서 생성된 정보중 id 값을 **output**에 기록
     > ...(동일 파일 내용 생략)
 
 - **output "natgw_a_id" {...} 블럭 생성 진행**
+
   - value - aws_nat_gateway.natgw_a.id - nat_gateway.tf 파일 **resource "aws_nat_gateway" "natgw_a" {...} 블럭** 에서 생성된 정보중 id 값을 **output**에 기록
     > ...(동일 파일 내용 생략)
 
@@ -439,6 +443,7 @@ output "igw_id" {
 ---
 
 # SG Folder
+
 > 폴더 항목
 >
 > ```
@@ -466,6 +471,7 @@ output "igw_id" {
 ---
 
 ## 02_SG/main.tf
+
 ```hcl
 terraform {
   required_version = ">= 1.2.2"
@@ -502,6 +508,7 @@ terraform {
 ---
 
 ## 02_SG/data.tf
+
 ```hcl
 data "terraform_remote_state" "vpc" {
   backend = "s3"                                  # backend type
@@ -516,7 +523,6 @@ data "terraform_remote_state" "vpc" {
 - **data "terraform_remote_state" "vpc" {...} 블럭 생성 진행**
   - backend
     - 백엔드는 S3로 설정
-
   - config
     - 백엔드의 설정값을 설정
     - 설정용 내부 블럭
@@ -538,6 +544,7 @@ data "terraform_remote_state" "vpc" {
 ---
 
 ## 02_SG/security_group.tf
+
 ```hcl
 resource "aws_security_group" "bastion_sg" {
   description = "Bastion Server Security group"
@@ -610,6 +617,7 @@ output "web_sg_id" {
 ---
 
 # EC2 Folder
+
 > 폴더 항목
 >
 > ```
@@ -674,6 +682,7 @@ terraform {
 ---
 
 ## 03_EC2/data.tf
+
 ```hcl
 # EC2 생성 설정을 위해 필요한 VPC 정보
 data "terraform_remote_state" "vpc" {
@@ -697,9 +706,9 @@ data "terraform_remote_state" "sg" {
 ```
 
 - **data "terraform_remote_state" "vpc" {...} 블럭 생성 진행**
+
   - backend
     - 백엔드는 S3로 설정
-  
   - config
     - 백엔드의 설정값을 설정
     - 설정용 내부 블럭
@@ -715,7 +724,6 @@ data "terraform_remote_state" "sg" {
 - **data "terraform_remote_state" "sg" {...} 블럭 생성 진행**
   - backend
     - 백엔드는 S3로 설정
-  
   - config
     - 백엔드의 설정값을 설정
     - 설정용 내부 블럭
@@ -743,6 +751,7 @@ data "terraform_remote_state" "sg" {
 ---
 
 ## 03_EC2/ec2.tf
+
 ```hcl
 resource "aws_instance" "bastion" {
 
@@ -763,7 +772,9 @@ resource "aws_instance" "bastion" {
 
 - **resource "aws_instance" "bastion" {...} 블럭 생성 진행**  
   (`data block 설명하기 위한 내용은 생략`)
+
   - subnet_id
+
     - data.terraform_remote_state.vpc.outputs.pub_a_subnet_id
       - 위에서 설정한 **`data.tf`** 파일의 **`data "terraform_remote_state" "vpc" {...}`** 블럭 참조
       - **`01_VPC`** 폴더 **`vpc.tf`** 파일 설정(생성) 값을 **`output.tf`** 파일의 **`data "pub_a_subnet_id"`** 블럭값
@@ -774,8 +785,8 @@ resource "aws_instance" "bastion" {
       - 위에서 설정한 **`data.tf`** 파일의 **`data "terraform_remote_state" "sg" {...}`** 블럭 참조
       - **`02_SG`** 폴더 **`security_group.tf`** 파일 설정(생성) 값을 **`output.tf`** 파일의 **`data "bastion_sg_id"`** 블럭값
   - key_name
-    - EC2 instance 생성시 적용 *.pem key (key_pair)
-    - __**`빠른 진행을 위해서 기존 AWS key_pair 사용`**__
+    - EC2 instance 생성시 적용 \*.pem key (key_pair)
+    - \***\*`빠른 진행을 위해서 기존 AWS key_pair 사용`\*\***
 
 > 참고용 URL
 >
@@ -790,6 +801,7 @@ resource "aws_instance" "bastion" {
 ---
 
 # ALB Folder
+
 > 폴더 항목
 >
 > ```
@@ -819,6 +831,7 @@ resource "aws_instance" "bastion" {
 ---
 
 ## 04_ALB/main.tf
+
 ```hcl
 terraform {
   required_version = ">= 1.2.2"
@@ -838,6 +851,7 @@ terraform {
   }
 }
 ```
+
 - **backend**
   - key
     - S3 bucket의 위치/파일명을 설정
@@ -855,6 +869,7 @@ terraform {
 ---
 
 ## 04_ALB/data.tf
+
 ```hcl
 data "terraform_remote_state" "vpc" {
   backend = "s3"
@@ -883,6 +898,7 @@ data "terraform_remote_state" "ec2" {
   }
 }
 ```
+
 > **data block 왜! 3개 설정하였을까?**
 >
 > ```
@@ -916,18 +932,19 @@ resource "aws_lb" "front_alb" {
   ]
 }
 ```
+
 - **resource "aws_lb" "front_alb" {...} 블럭 생성 진행**
+
   - name
     - ALB의 Name 설정
-
   - internal
     - Public 설정 (bool type)
-
   - load_balancer_type
 
     - application 설정
 
   - subnets
+
     - **[ ]** 리스트 형식으로 입력
     - data.terraform_remote_state.vpc.outputs.{pub_a_subnet_id , pub_c_subnet_id}
       - 위에서 설정한 **`data.tf`** 파일의 **`data "terraform_remote_state" "vpc" {...}`** 블럭 참조
@@ -946,6 +963,7 @@ resource "aws_lb" "front_alb" {
 ---
 
 ## 04_ALB/elb_alb_tg.tf
+
 ```hcl
 resource "aws_lb_target_group" "front_alb_tg" {
   name        = "test-tf-front-alb-tg"
@@ -965,7 +983,9 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
 
 }
 ```
+
 - **resource "aws_lb_target_group" "front_alb_tg" {...} 블럭 생성 진행**
+
   - vpc_id
     - data.terraform_remote_state.vpc.outputs.vpc_id
       - 위에서 설정한 **`data.tf`** 파일의 **`data "terraform_remote_state" "vpc" {...}`** 블럭 참조
@@ -980,6 +1000,7 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
 ---
 
 # RDS Folder
+
 > 폴더 항목
 >
 > ```
@@ -1008,6 +1029,7 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
 ---
 
 ## 05_RDS/main.tf
+
 ```hcl
 terraform {
   required_version = ">= 1.2.2"
@@ -1044,6 +1066,7 @@ terraform {
 ---
 
 ## 05_RDS/data.tf
+
 ```hcl
 data "terraform_remote_state" "vpc" {
   backend = "s3"
@@ -1080,6 +1103,7 @@ data "terraform_remote_state" "sg" {
 ---
 
 ## 05_RDS/rds_aurora_subnet.tf
+
 ```hcl
 resource "aws_db_subnet_group" "this" {
   description = "RDS Aurora Database subnet group"
@@ -1108,6 +1132,7 @@ resource "aws_db_subnet_group" "this" {
 ---
 
 ## 05_RDS/rds_aurora.tf
+
 ```hcl
 resource "aws_rds_cluster" "this" {
   cluster_identifier   = "test-tf-rds-aurora-cluster"
@@ -1115,6 +1140,8 @@ resource "aws_rds_cluster" "this" {
 
   engine         = "aurora-mysql"
   engine_version = "8.0.mysql_aurora.3.02.0"
+
+
 
   database_name   = "testterraformdb"
   master_username = "admin"
@@ -1134,6 +1161,7 @@ resource "aws_rds_cluster" "this" {
   db_instance_parameter_group_name = aws_db_parameter_group.this.id
 }
 ```
+
 - **resource "aws_rds_cluster" "this" {...} 블럭 생성 진행**
   - vpc_security_group_ids
     - **[ ]** 리스트 형식으로 입력

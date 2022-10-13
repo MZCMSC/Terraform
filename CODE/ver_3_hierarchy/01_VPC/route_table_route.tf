@@ -17,8 +17,8 @@ resource "aws_route" "pub_c_main_rtb_rt" {
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #           Private RTB Route rule NatGW Association
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# WEB
 resource "aws_route" "pri_a_was_rtb_rt" {
   route_table_id         = aws_route_table.pri_a_was_rtb.id
   nat_gateway_id         = aws_nat_gateway.natgw_a.id
@@ -32,30 +32,32 @@ resource "aws_route" "pri_c_was_rtb_rt" {
   depends_on             = [aws_route_table.pri_c_was_rtb]
 }
 
-
 /* 
-# resource "aws_route" "pri_a_web_rtb_rt" {
-#    route_table_id = aws_route_table.pri_a_web_rtb.id
-#     nat_gateway_id = aws_nat_gateway.natgw_a.id
-#     destination_cidr_block = "0.0.0.0/0"
-#     depends_on = [ aws_route_table.pri_a_web_rtb ]
-# }
-# resource "aws_route" "pri_c_web_rtb_rt" {
-#    route_table_id = aws_route_table.pri_c_web_rtb.id
-#     nat_gateway_id = aws_nat_gateway.natgw_c.id
-#     destination_cidr_block = "0.0.0.0/0"
-#     depends_on = [ aws_route_table.pri_c_web_rtb ]
-# }
-# resource "aws_route" "pri_a_rds_rtb_rt" {
-#    route_table_id = aws_route_table.pri_a_rds_rtb.id
-#     nat_gateway_id = aws_nat_gateway.natgw_a.id
-#     destination_cidr_block = "0.0.0.0/0"
-#     depends_on = [ aws_route_table.pri_a_rds_rtb ]
-# }
-# resource "aws_route" "pri_c_rds_rtb_rt" {
-#    route_table_id = aws_route_table.pri_c_rds_rtb.id
-#     nat_gateway_id = aws_nat_gateway.natgw_c.id
-#     destination_cidr_block = "0.0.0.0/0"
-#     depends_on = [ aws_route_table.pri_c_rds_rtb ]
-# }
- */
+# WAS
+resource "aws_route" "pri_a_web_rtb_rt" {
+   route_table_id = aws_route_table.pri_a_web_rtb.id
+    nat_gateway_id = aws_nat_gateway.natgw_a.id
+    destination_cidr_block = "0.0.0.0/0"
+    depends_on = [ aws_route_table.pri_a_web_rtb ]
+}
+resource "aws_route" "pri_c_web_rtb_rt" {
+   route_table_id = aws_route_table.pri_c_web_rtb.id
+    nat_gateway_id = aws_nat_gateway.natgw_c.id
+    destination_cidr_block = "0.0.0.0/0"
+    depends_on = [ aws_route_table.pri_c_web_rtb ]
+}
+
+# RDS
+resource "aws_route" "pri_a_rds_rtb_rt" {
+   route_table_id = aws_route_table.pri_a_rds_rtb.id
+    nat_gateway_id = aws_nat_gateway.natgw_a.id
+    destination_cidr_block = "0.0.0.0/0"
+    depends_on = [ aws_route_table.pri_a_rds_rtb ]
+}
+resource "aws_route" "pri_c_rds_rtb_rt" {
+   route_table_id = aws_route_table.pri_c_rds_rtb.id
+    nat_gateway_id = aws_nat_gateway.natgw_c.id
+    destination_cidr_block = "0.0.0.0/0"
+    depends_on = [ aws_route_table.pri_c_rds_rtb ]
+} 
+*/

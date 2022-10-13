@@ -32,6 +32,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   }
 }
 
+# ++++++++++++++++++++++++++++++++++++++
+#            DynamoDB table 생성
+# ++++++++++++++++++++++++++++++++++++++
 resource "aws_dynamodb_table" "this" {
   name         = "test-terraform-state-locks"
   billing_mode = "PAY_PER_REQUEST"
