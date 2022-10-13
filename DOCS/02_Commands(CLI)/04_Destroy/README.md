@@ -26,10 +26,6 @@
 ### Destroy
 
 > terraform destroy 명령은 Terraform 관리 인프라를 삭제하는데 사용됩니다.
->
-> ```
->
-> ```
 
 #### Usage
 
