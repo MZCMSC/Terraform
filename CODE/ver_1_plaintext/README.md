@@ -69,7 +69,6 @@
 
 ## `main.tf`
 ### terraform 블럭
-
 ```hcl
 terraform {
   required_version = ">= 1.2.2"
@@ -88,10 +87,9 @@ terraform {
 - required_providers
   - registry.terraform.io/hashicorp/aws 에서 4.22.0 버전 사용
 
-## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
+### `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
 
 ### provider 블럭
-
 ```hcl
 provider "aws" {
     region = "ap-northeat-2"
