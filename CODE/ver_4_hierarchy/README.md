@@ -21,8 +21,8 @@
 │   ├── nat_gateways.tf
 │   ├── output.tf
 │   ├── provider.tf
-│   ├── route_tables.tf
-│   ├── route_tables_rule.tf
+│   ├── route_table.tf
+│   ├── route_table_route.tf
 │   ├── subnets.tf
 │   ├── variable.tf
 │   └── vpc.tf
@@ -58,7 +58,6 @@
 │   ├── data.tf
 │   ├── elb_alb.tf
 │   ├── elb_alb_listener.tf
-│   ├── elb_alb_listener_rule.tf
 │   ├── elb_alb_tg.tf
 │   ├── main.tf
 │   ├── output.tf
@@ -124,23 +123,21 @@ VPC/EC2/SG/RDS는 remote backend
 ---
 
 ### 테라폼 명령어
+> **실행**
+> - `$ terraform init`
+>
+> **계획**
+> - `$ terraform plan -out=planfile -refresh=false`
+>
+> **적용**
+> - `$ terraform apply planfile`
 
-```
-실행
-$ terraform init
-
-계획
-$ terraform plan -refresh=false -out=planfile
-
-적용
-$ terraform apply planfile
-```
-
-```
-적용 완료시 설정값 확인 (*.tfstate 파일)
-$ terraform refresh
-$ terraform show
-```
+[**명령어 리스트**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
+> [**`init`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
+> 
+> [**`plan`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
+> 
+> [**`apply`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
 
 ---
 
@@ -191,7 +188,7 @@ $ terraform show
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ## 00_S3/variable.tf
 
@@ -392,8 +389,8 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 > ├── nat_gateways.tf
 > ├── output.tf
 > ├── provider.tf
-> ├── route_tables.tf
-> ├── route_tables_rule.tf
+> ├── route_table.tf
+> ├── route_table_route.tf
 > ├── subnets.tf
 > ├── variable.tf
 > └── vpc.tf
@@ -413,7 +410,7 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ---
 
@@ -623,7 +620,7 @@ resource "aws_subnet" "main_pub_c_subnet" {
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ---
 
@@ -788,7 +785,7 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ---
 
@@ -988,7 +985,7 @@ resource "aws_instance" "bastion" {
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ---
 
@@ -1137,7 +1134,6 @@ resource "aws_instance" "web_a" {
 > ├── data.tf
 > ├── elb_alb.tf
 > ├── elb_alb_listener.tf
-> ├── elb_alb_listener_rule.tf
 > ├── elb_alb_tg.tf
 > ├── main.tf
 > ├── output.tf
@@ -1160,7 +1156,7 @@ resource "aws_instance" "web_a" {
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ---
 
@@ -1282,7 +1278,7 @@ resource "aws_lb" "front_alb" {
 
 ---
 
-> **앞서 설명 드린 내용은 빠르게 Skip 진행하고 추가된 내용 안내 드립니다.**
+> **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
 ---
 

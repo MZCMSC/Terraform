@@ -21,7 +21,7 @@
 │   ├── nat_gateways.tf
 │   ├── output.tf
 │   ├── provider.tf
-│   ├── route_tables.tf
+│   ├── route_table.tf
 │   ├── security_group.tf
 │   ├── subnets.tf
 │   ├── terraform.tfvars
@@ -131,25 +131,22 @@ VPC/EC2/SG/RDS는 remote backend
 ```
 
 ---
-
 ### 테라폼 명령어
+> **실행**
+> - `$ terraform init`
+>
+> **계획**
+> - `$ terraform plan -refresh=false -out=planfile -var-file=terraform.tfvars`
+>
+> **적용**
+> - `$ terraform apply planfile`
 
-```
-실행
-$ terraform init
-
-계획
-$ terraform plan -refresh=false -out=planfile -var-file=terraform.tfvars
-
-적용
-$ terraform apply planfile
-```
-
-```
-적용 완료시 설정값 확인 (*.tfstate 파일)
-$ terraform refresh
-$ terraform show
-```
+[**명령어 리스트**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
+> [**`init`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
+> 
+> [**`plan`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
+> 
+> [**`apply`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
 
 ---
 
@@ -272,7 +269,7 @@ variable "tags" {
 > ├── nat_gateways.tf
 > ├── output.tf
 > ├── provider.tf
-> ├── route_tables.tf
+> ├── route_table.tf
 > ├── security_group.tf
 > ├── subnets.tf
 > ├── terraform.tfvars
