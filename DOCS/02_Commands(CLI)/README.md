@@ -68,6 +68,7 @@ All other commands:
 - [State](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/09_State/README.md)
 - [Graph](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/10_Graph/README.md)
 - [Environment Variables](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/11_Environment_Variables/README.md)
+- [Show](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/12_Show/README.md)
 
 
 
