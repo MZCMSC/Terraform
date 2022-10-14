@@ -48,15 +48,15 @@ max(5, 12, 9)
 
 > 각 기능에 대한 설명서의 예제에서는 콘솔 출력을 사용하여 매개 변수가 서로 다른 함수를 호출한 결과를 설명합니다.
 
-- [Numeric Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/01_Numeric_Functions/README.md)
-- [String Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/02_String_Functions/README.md)
-- [Collections Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/03_Collection_Functions/README.md)
-- [Encoding Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/04_Encoding_Functions/README.md)
-- [Filesystem Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/05_Filesystem_Functions/README.md)
-- [Date and Time Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/06_Date_and_Time_Functions/README.md)
-- [Hash and Crypto Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/07_Hash_and_Crypto_Functions/README.md)
-- [IP Network Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/08_IP_Network_Functions/README.md)
-- [Type Conversion Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/11_Functions/09_Type_Conversion_Functions/README.md)
+- [Numeric Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/01_Numeric_Functions/README.md)
+- [String Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/02_String_Functions/README.md)
+- [Collections Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/03_Collection_Functions/README.md)
+- [Encoding Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/04_Encoding_Functions/README.md)
+- [Filesystem Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/05_Filesystem_Functions/README.md)
+- [Date and Time Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/06_Date_and_Time_Functions/README.md)
+- [Hash and Crypto Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/07_Hash_and_Crypto_Functions/README.md)
+- [IP Network Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/08_IP_Network_Functions/README.md)
+- [Type Conversion Functions](https://github.com/MZCMSC/Terraform/blob/main/DOCS/01_Configuration_Language/11_Functions/09_Type_Conversion_Functions/README.md)
 
 ---
 
