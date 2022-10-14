@@ -35,8 +35,10 @@
 ### 테라폼 명령어
 > **실행**
 >   `$ terraform init`
+>
 > **계획**
 >   `$ terraform plan -out=planfile`
+>
 > **적용**
 >   `$ terraform apply planfile`
 
