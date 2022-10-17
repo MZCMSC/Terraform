@@ -2,8 +2,6 @@
 
 ## main.tf 파일 하나로 code 되어 있음.
 
----
-
 ### 파일 구성
 
 ```
@@ -87,7 +85,7 @@ terraform {
 - required_providers
   - registry.terraform.io/hashicorp/aws 에서 4.22.0 버전 사용
 
-### `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
+#### `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
 
 ### provider 블럭
 ```hcl
@@ -115,32 +113,34 @@ resource "aws_vpc" "this" {
     <IDENTIFIER> = <EXPRESSION>
 }
 ```
+- 블럭 타입은 `resource` , 블럭 라벨 1(resource_type)은 `aws_vpc` , 블럭 라벨 2(resource_name)는 `this`
+  - 블럭 타입 : **`변경 불가`**
+  - 블럭 라벨 1 : **`변경 불가`** ~> resource_type은 지정된 값으로 [registry](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) 문서 참고하여 사용한다.
+  - 블럭 라벨 2 : **`변경 가능`** -> resource_name은 작성자가 지정하여 값이 중복되지 않게 사용한다. 
+
+> **참고용 URL 필수 확인 진행.**
 
 > 참고용 URL
 >
 > - https://www.terraform.io/language
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
 ---
 
 #### resource vpc 블럭
-
 ```hcl
 resource "aws_vpc" "this" {
   cidr_block = "10.50.0.0/16"
   tags       = { "Name" = "test-tf-vpc" }
 }
 ```
-
-- 블럭 타입은 "resource", 블럭 라벨 1은 "aws_vpc" , 블럭 라벨 2는 "this"
-  - 블럭 라벨 2는 Code 작성자가 임의로 설정 가능하다.
-
-- 식별자는 2개, 표현값도 2개 설정되어 있다.
-  - 식별자
-    - cidr_block
-    - tags
-  - 표현값
+- **resource "aws_vpc" "this" {...} 블럭 생성 진행**
+  - cidr_block
     - "10.50.0.0/16"
+      - VPC 생성 CIDR 값 설정
+  - tags
     - { "Name" = "test-tf-vpc" }
+      - 생성한 VPC의 Name tag 설정
 
 > 참고용 URL
 >
@@ -150,7 +150,6 @@ resource "aws_vpc" "this" {
 ---
 
 #### resource subnet 블럭
-
 ```hcl
 resource "aws_subnet" "main_pub_a_subnet" {
   vpc_id            = aws_vpc.this.id
@@ -161,21 +160,21 @@ resource "aws_subnet" "main_pub_a_subnet" {
 
 ...(생략) (필요한 갯수 만큼 설정)
 ```
-
-- 블럭 타입은 "resource", 블럭 라벨 1은 "aws_subnet" , 블럭 라벨 2는 "main_pub_a_subnet"
-
-- 식별자는 4개, 표현값도 4개로 구성되어 있다.
-  - 식별자
-    - vpc_id
-    - cidr_block
-    - availability_zone
-    - tags
-  - 표현값
-    - aws*vpc*.this.id
+- **resource "aws_subnet" "main_pub_a_subnet" {...} 블럭 생성 진행**
+  - vpc_id
+    - aws_vpc.this.id
       - 바로 위에 설정한 "resouce" "aws_vpc" "this" 의 코드 블럭(생성된 정보값)의 id 값을 참조하도록 설정
+  - cidr_block
     - "10.50.10.0/24"
+      - 생성하고자 하는 subnet_cidr 설정
+  - availability_zone
     - "ap-northeast-2a"
+      - 생성하고자 하는 AZ 설정
+  - tags
     - { Name = "test-tf-vpc-ap-northeast-2a-public-main-subnet" }
+      - subnet의 Name tag 설정
+
+> **위의 예제와 같이 설정된 "aws_vpc" "this"를 vpc_id 식별자에 표현값으로 참조 하거나, tags 처럼 사용자가 직접 설정 하여 Code를 작성한다.**
 
 > 참고용 URL
 >
@@ -185,23 +184,19 @@ resource "aws_subnet" "main_pub_a_subnet" {
 ---
 
 #### resource igw(internet gateway) 블럭
-
 ```hcl
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
   tags   = { Name = "test-tf-vpc-igw" }
 }
 ```
-
-- 블럭 타입은 "resource", 블럭 라벨 1은 "aws_internet_gateway" , 블럭 라벨 2는 "this"
-
-- 식별자 및 표현값은 각각 2개
-  - 식별자
-    - vpc_id
-    - tags
-  - 표현값
+- **resource "aws_internet_gateway" "this" {...} 블럭 생성 진행**
+  - vpc_id
     - aws_vpc.this.id
+      - 위에 설정한 "resouce" "aws_vpc" "this" 의 코드 블럭(생성된 정보값)의 id 값을 참조하도록 설정
+  - tags
     - { Name = "test-tf-vpc-igw" }
+      - internat_gateway의 Name tag 설정
 
 > **위의 예제와 같이 설정된 "aws_vpc" "this"를 vpc_id 식별자에 표현값으로 참조 하거나, tags 처럼 사용자가 직접 설정 하여 Code를 작성한다.**
 
@@ -255,35 +250,6 @@ resource "aws_nat_gateway" "natgw_a" {
 ---
 
 #### resource route_table 블럭
-
-##### default route_table 로 알아보는 전체 식별자 Sample
-
-- 적절하게 필요한 정보를 설정하여 사용
-
-```hcl
-resource "aws_default_route_table" "this" {
-  default_route_table_id = aws_vpc.this.default_route_table_id
-  # route = [ {
-  #   cidr_block = "10.50.1.0/24"
-  #   core_network_arn = "value"
-  #   destination_prefix_list_id = "value"
-  #   egress_only_gateway_id = "value"
-  #   gateway_id = "value"
-  #   instance_id = "value"
-  #   ipv6_cidr_block = "value"
-  #   nat_gateway_id = "value"
-  #   network_interface_id = "value"
-  #   transit_gateway_id = "value"
-  #   vpc_endpoint_id = "value"
-  #   vpc_peering_connection_id = "value"
-  # } ]
-  tags = { Name = "test-tf-vpc-default-rtb" }
-```
-
----
-
-##### 실제 설정 진행하는 route_table
-
 ```hcl
 # RTB 생성
 resource "aws_route_table" "pub_a_main_rtb" {
@@ -347,6 +313,7 @@ resource "aws_security_group" "bastion_sg" {
   #     to_port = 22
   #     cidr_blocks = ["0.0.0.0/0"]
   # }
+
   egress {
     description = "SSH Outbound Port"
     protocol    = "-1"
@@ -375,7 +342,7 @@ resource "aws_security_group" "bastion_sg" {
       - ingress -> inbound
       - egress -> outbound
 
-  - ingress (주석 되어 있음)
+  - ingress
     - description
       - 해당 SG의 inbound rule 의 설명문
     - protocol
@@ -440,6 +407,8 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
     - **[ ]** 리스트 형식으로 입력
     - "0.0.0.0/0" 전체 IP 영역 및 특정 IP
       - Sample로 작성하였기에 Megazoen UTM 장비의 공인 IP도 작성
+
+> **해당 `aws_security_group_rule` 적용하기 위해서는 대상 `aws_security_group` 내에 rule이 설정되어 있으면 안됩니다.**
 
 > 참고용 URL
 >

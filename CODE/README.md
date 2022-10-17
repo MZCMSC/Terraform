@@ -1,11 +1,11 @@
 # Terraform Code
 
 ### Terraform example code
-
-> 간단한 3-Tier 구조를 통해 알아보는 Code 샘플
-> 가능한 Terraform에서 사용 가능한 형식의 블럭을 최대한 사용해볼수 있도록 구성
-> Version별 폴더로 구성하여 자츰 코드를 다듬어 가는 과정을 표현
-
+```
+ 1. 간단한 3-Tier 구조를 통해 알아보는 Code 샘플
+ 2. Terraform에서 사용 가능한 형식의 블럭을 최대한 사용하여 구성
+ 3. Version별 폴더로 구성하여 자츰 코드를 다듬어 가는 과정을 표현
+```
 ---
 
 <pre>
