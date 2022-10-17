@@ -2,8 +2,6 @@
 
 ## AWS resource(service) 단위로 \*.tf 파일 구성
 
----
-
 ### 파일 구성
 
 ```
