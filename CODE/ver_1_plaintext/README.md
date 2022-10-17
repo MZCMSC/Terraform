@@ -525,8 +525,6 @@ resource "aws_lb" "front_alb" {
         - gateway (GLB)
   - subnets
     - 해당 ALB에 associate 진행 하고자 하는 subnet 설정
-    - 위의 코드는 AZ(subnet) 2곳 설정
-      - A_zone(ap-northeast-2a) , C_zone(ap-northeast-2c)
   - security_groups
     - 해당 ALB에서 사용 하고자 하는 SG 설정
 
