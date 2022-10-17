@@ -1,6 +1,5 @@
 # Code guide
 ## AWS resource(서비스) 단위로 폴더 구성
----
 ### 폴더 및 파일 구성
 ```
 .
@@ -87,18 +86,23 @@
 
 
 ---
+
 ### 테라폼 명령어
 > **실행**
->   `$ terraform init`
+> - `$ terraform init`
+>
 > **계획**
->   `$ terraform plan -out=planfile`
+> - `$ terraform plan -out=planfile`
+>
 > **적용**
->   `$ terraform apply planfile`
+> - `$ terraform apply planfile`
 
-[**명령어 참고 URL**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
-> [`init` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
-> [`plan` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
-> [`apply` 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
+[**명령어 리스트**](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/README.md)
+> [**`init`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/01_Init/README.md)
+> 
+> [**`plan`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/02_Plan/README.md)
+> 
+> [**`apply`** 명령어, 옵션 확인하기](https://github.com/MZCMSC/Terraform/blob/main/DOCS/02_Commands(CLI)/03_Apply/README.md)
 
 ---
 
@@ -197,7 +201,6 @@ resource "aws_s3_bucket_acl" "this" {
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   bucket = aws_s3_bucket.this.id
   rule {
-    # bucket_key_enabled =
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
     }
@@ -319,10 +322,10 @@ terraform {
 
   backend "s3" {
     bucket         = "test-terraform-state-backend-msc"  # 어떠한 S3 bucket
-    dynamodb_table = "test-terraform-state-locks"       # 어떠한 Dynamo DB table
-    key            = "vpc/terraform.tfstate"            # 어디 S3 위치의 파일
-    region         = "ap-northeast-2"                   # 어디 Region(지역)
-    encrypt        = true                               # encrypt 사용 여부
+    dynamodb_table = "test-terraform-state-locks"        # 어떠한 Dynamo DB table
+    key            = "vpc/terraform.tfstate"             # 어디 S3 위치의 파일
+    region         = "ap-northeast-2"                    # 어디 Region(지역)
+    encrypt        = true                                # encrypt 사용 여부
   }
 }
 ```
