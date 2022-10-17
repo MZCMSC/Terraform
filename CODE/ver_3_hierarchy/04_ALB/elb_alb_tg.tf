@@ -14,9 +14,6 @@ resource "aws_lb_target_group" "backend_alb_tg" {
   protocol    = "HTTP"
 }
 
-
-
-
 # ALB Target Group Attachment
 resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
   target_group_arn = aws_lb_target_group.front_alb_tg.arn

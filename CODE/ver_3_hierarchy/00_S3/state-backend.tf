@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "this" {
   #   prevent_destroy = true
   # }
 
-  tags = {Name = "test-terraform-state-backend-msc"}
+  tags = { Name = "test-terraform-state-backend-msc" }
 }
 
 resource "aws_s3_bucket_versioning" "this" {
@@ -25,7 +25,6 @@ resource "aws_s3_bucket_acl" "this" {
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   bucket = aws_s3_bucket.this.id
   rule {
-    # bucket_key_enabled = 
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
     }

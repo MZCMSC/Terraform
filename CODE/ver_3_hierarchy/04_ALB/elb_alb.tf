@@ -17,7 +17,7 @@ resource "aws_lb" "front_alb" {
     aws_lb_target_group.front_alb_tg
   ]
 
-  tags = "test-tf-ext-front-alb"
+  tags = { Name = "test-tf-ext-front-alb" }
 }
 
 # backend
@@ -40,6 +40,6 @@ resource "aws_lb" "backend_alb" {
     aws_lb_target_group.backend_alb_tg
   ]
 
-  tags = "test-tf-int-backend-alb"
+  tags = { Name = "test-tf-int-backend-alb" }
 }
 

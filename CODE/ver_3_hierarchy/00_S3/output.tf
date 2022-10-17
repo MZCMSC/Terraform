@@ -1,6 +1,5 @@
 output "region" {
-  description = "AWS Region"
-  value       = var.region
+  value = aws_s3_bucket.this.region
 }
 output "s3_bucket_name" {
   value = aws_s3_bucket.this.bucket
