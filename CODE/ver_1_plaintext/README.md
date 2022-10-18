@@ -715,7 +715,7 @@ resource "aws_db_parameter_group" "this" {
 ```hcl
 resource "aws_rds_cluster" "this" {
   cluster_identifier               = "test-tf-rds-aurora-cluster"
-  db_subnet_group_name             = aws_db_subnet_group.this.id
+  db_subnet_group_name             = aws_db_subnet_group.this.name
 
   engine                           = "aurora-mysql"
   engine_version                   = "8.0.mysql_aurora.3.02.0"
@@ -736,17 +736,16 @@ resource "aws_rds_cluster" "this" {
 ```
 
 - **resource "aws_rds_cluster" "this" {...} 블럭 생성 진행**
-
   - cluster_identifier
     - 클러스터의 식별자(명칭) 설정
-  - db_subnet_group_name
 
+  - db_subnet_group_name
     - 위에서 생성한 subnet_group 설정
 
   - engine
     - 클러스터에서 사용할 엔진 설정
-  - engine_version
 
+  - engine_version
     - 클러스터에서 사용할 엔진 버전 설정
     
   - database_name
@@ -791,7 +790,7 @@ resource "aws_rds_cluster_instance" "this" {
   identifier = "test-tf-rds-aurora-${count.index}"
 
   cluster_identifier = aws_rds_cluster.this.id
-  db_subnet_group_name    = aws_db_subnet_group.this.id
+  db_subnet_group_name    = aws_db_subnet_group.this.name
 
   instance_class = "db.t3.medium"
 
