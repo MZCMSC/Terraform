@@ -1,9 +1,6 @@
 # Code guide
-
 ## main.tf 파일 하나로 code 되어 있음.
-
 ### 파일 구성
-
 ```
 .
 └── main.tf
@@ -50,7 +47,6 @@
 ---
 
 ### 사용된 리소스 블럭
-
 ```
 1. terraform    block
 2. provider     block
@@ -103,7 +99,6 @@ provider "aws" {
 - resource 블럭은 실제 AWS에 존재하는 서비스를 생성/삭제 등과 같은 액션을 가능하도록 하는 블럭
 
 #### resource 블럭의 구조
-
 ```hcl
 resource "aws_vpc" "this" {
   cidr_block = "10.50.0.0/16"
@@ -207,7 +202,6 @@ resource "aws_internet_gateway" "this" {
 ---
 
 #### resource natgw(nat gateway) 블럭
-
 ```hcl
 # EIP 생성
 resource "aws_eip" "natgw_a_eip" {
@@ -299,7 +293,6 @@ resource "aws_route_table_association" "pub_a_main_rtb" {
 ---
 
 #### Security_group 블럭
-
 ```hcl
 resource "aws_security_group" "bastion_sg" {
   description = "Bastion Server Security group"
@@ -369,7 +362,6 @@ resource "aws_security_group" "bastion_sg" {
 ---
 
 #### Security_group_rule 블럭
-
 ```hcl
 resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
   description       = "SSH - Bastion Server inbound rule"
@@ -417,7 +409,6 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
 ---
 
 #### EC2(Instance) 블럭
-
 ```hcl
 resource "aws_instance" "bastion" {
   ami                       = "ami-0fd0765afb77bcca7"
@@ -490,7 +481,6 @@ resource "aws_eip" "bastion_eip" {
 
 ### **ELB(Elastic Load Balancing)**
 #### ALB(Application Load Balancers) 블럭
-
 ```hcl
 resource "aws_lb" "front_alb" {
   name               = "test-tf-ext-front-alb"
@@ -535,7 +525,6 @@ resource "aws_lb" "front_alb" {
 ---
 
 #### ALB Target_group 블럭
-
 ```hcl
 resource "aws_lb_target_group" "front_alb_tg" {
   name        = "test-tf-front-alb-tg"
@@ -585,7 +574,6 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
 ---
 
 #### ALB listener 블럭
-
 ```hcl
 resource "aws_lb_listener" "front_alb_listener" {
   load_balancer_arn = aws_lb.front_alb.arn
@@ -624,7 +612,6 @@ resource "aws_lb_listener" "front_alb_listener" {
 ### **RDS(Relational Database Service)**
 
 #### RDS subnet_group 블럭
-
 ```hcl
 resource "aws_db_subnet_group" "this" {
   description = "RDS Aurora Database subnet group"
@@ -655,7 +642,6 @@ resource "aws_db_subnet_group" "this" {
 ---
 
 #### RDS parameter_group 블럭
-
 ```hcl
 resource "aws_rds_cluster_parameter_group" "this" {
   name   = "test-tf-aurora-mysql8-0"
@@ -711,7 +697,6 @@ resource "aws_db_parameter_group" "this" {
 ---
 
 #### RDS cluster(Aurora) 블럭
-
 ```hcl
 resource "aws_rds_cluster" "this" {
   cluster_identifier               = "test-tf-rds-aurora-cluster"
@@ -783,7 +768,6 @@ resource "aws_rds_cluster" "this" {
 ---
 
 #### RDS db_instance (Aurora) 블럭
-
 ```hcl
 resource "aws_rds_cluster_instance" "this" {
   count      = 2
