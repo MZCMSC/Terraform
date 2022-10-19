@@ -4,8 +4,6 @@
 # Cluster PG type
 
 resource "aws_rds_cluster_parameter_group" "this" {
-  # description = 
-  # name   = "test-tf-rds-cluster-mysql3-01-0-cpg"
   name   = "test-tf-aurora-mysql8-0"
   family = "aurora-mysql8.0"
 
@@ -24,13 +22,6 @@ resource "aws_rds_cluster_parameter_group" "this" {
 #                   PG type
 # ++++++++++++++++++++++++++++++++++++++++++++++
 resource "aws_db_parameter_group" "this" {
-  # description = 
-  # name   = "test-tf-rds-cluster-mysql3-01-0-pg"
   name   = "test-tf-aurora-mysql8-0"
   family = "aurora-mysql8.0"
 }
-
-# ++++++++++++++++++++++++++++++++++++++++++++++
-#               RDS Option group
-# ++++++++++++++++++++++++++++++++++++++++++++++
-
