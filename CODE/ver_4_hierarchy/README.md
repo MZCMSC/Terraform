@@ -1,9 +1,5 @@
 # Code guide
-
 ## AWS 서비스 단위 폴더 구성 및 변수/함수 사용
-
----
-
 ### 폴더 및 파일 구성
 
 ```
@@ -111,7 +107,6 @@
 ---
 
 ### 참고 사항
-
 ```
 S3 생성은 local backend
 - terraform.tfstate (local에 생성)
@@ -142,7 +137,6 @@ VPC/EC2/SG/RDS는 remote backend
 ---
 
 ### 사용된 리소스 블럭
-
 ```
 1. terraform    block
 2. provider     block
@@ -182,7 +176,7 @@ VPC/EC2/SG/RDS는 remote backend
 > $ cd 00_S3
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
@@ -190,8 +184,9 @@ VPC/EC2/SG/RDS는 remote backend
 
 > **앞서 설명 드린 내용은 Skip 진행하고 추가된 내용 안내 드립니다.**
 
-## 00_S3/variable.tf
+---
 
+## 00_S3/variable.tf
 ```hcl
 variable "region" {
   description = "AWS Region"
@@ -274,7 +269,6 @@ variable "tags" {
 ---
 
 ## 00_S3/provider.tf
-
 ```hcl
 provider "aws" {
   region = var.region
@@ -296,7 +290,6 @@ provider "aws" {
 ---
 
 ## 00_S3/state-backend.tf
-
 ```hcl
 resource "aws_s3_bucket" "terraform_state_backend" {
   bucket = var.s3_bucket
@@ -328,13 +321,9 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 ```
 
 - **resource "aws_s3_bucket" "terraform_state_backend" {...} 블럭 생성 진행**
-
   - bucket
-
     - var.s3_bucket
-
       - **`variable.tf`** 파일에서 생성한 **`s3_bucket`** 값 참조
-
         - `region = var.s3_bucket` **or** `region = "test-terraform-state-backend-msc"` 똑같다
 
   - tag
@@ -346,7 +335,6 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
           - 3. `merge()` 함수 사용 `var.tags` , `var.s3_bucket` **병합**
 
 - **resource "aws_s3_bucket_acl" "this" {...} 블럭 생성 진행**
-
   - acl
     - var.s3_acl
       - **`variable.tf`** 파일에서 생성한 **`s3_acl`** 값 참조
@@ -404,7 +392,7 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 > $ cd 00_VPC
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
@@ -614,7 +602,7 @@ resource "aws_subnet" "main_pub_c_subnet" {
 > $ cd 02_SG
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
@@ -779,7 +767,7 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
 > $ cd 03_EC2_bastion
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
@@ -809,7 +797,7 @@ data "aws_ami" "amazon-linux-2" {
     - data 블럭/필터 검색시 동일 항목의 경우 최신 버전 사용여부
   - owners
     - data 블럭의 owners 값 설정
-    - **_`"amazon"```_** 이 관리 하는 리소스
+    - **_"amazon"_** 이 관리 하는 리소스
   - filter
     - 필터링 진행시 필요한 정보 설정
     - Amazon linux 2 AMI 이미지를 찾기 위한 설정
@@ -909,10 +897,8 @@ resource "aws_instance" "bastion" {
   availability_zone = var.az
   instance_type     = var.instance_type
   key_name          = var.key_name
-
   subnet_id         = data.terraform_remote_state.vpc.outputs.pub_a_subnet_id
-
-  security_groups   = [data.terraform_remote_state.sg.outputs.bastion_sg_id, ]
+  vpc_security_group_ids = [data.terraform_remote_state.sg.outputs.bastion_sg_id, ]
 
   root_block_device {
     volume_size = var.volume_size
@@ -979,7 +965,7 @@ resource "aws_instance" "bastion" {
 > $ cd 04_EC2_service
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
@@ -1078,8 +1064,8 @@ resource "aws_instance" "web_a" {
   availability_zone = var.add_instance.web_a.availability_zone
   instance_type     = var.add_instance.web_a.instance_type
   key_name          = var.add_instance.web_a.key_name
-  security_groups   = [data.terraform_remote_state.sg.outputs.web_sg_id]
   subnet_id         = data.terraform_remote_state.vpc.outputs.web_a_subnet_id
+  vpc_security_group_ids   = [data.terraform_remote_state.sg.outputs.web_sg_id, ]
 
   root_block_device {
     volume_size = var.add_instance.web_a.volume_size
@@ -1150,7 +1136,7 @@ resource "aws_instance" "web_a" {
 > $ cd 05_ALB
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
@@ -1272,7 +1258,7 @@ resource "aws_lb" "front_alb" {
 > $ cd 06_RDS
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile
+> $ terraform plan -out=planfile
 > $ terraform apply planfile
 > ```
 
