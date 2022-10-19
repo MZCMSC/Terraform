@@ -1,9 +1,6 @@
 # Code guide
-
 ## AWS 서비스 단위 폴더 구성 및 변수에 \*.tfvars 파일 및 locals 블럭 사용
-
 ### 폴더 및 파일 구성
-
 ```
 .
 ├── 00_S3
@@ -49,7 +46,7 @@
 │   ├── terraform.tfvars
 │   └── variable.tf
 │
-├── 05_ALB
+├── 04_ALB
 │   ├── data.tf
 │   ├── elb_alb.tf
 │   ├── elb_alb_listener.tf
@@ -61,7 +58,7 @@
 │   ├── terraform.tfvars
 │   └── variable.tf
 │
-└── 06_RDS
+└── 05_RDS
     ├── data.tf
     ├── local.tf
     ├── main.tf
@@ -121,7 +118,6 @@
 ---
 
 ### 참고 사항
-
 ```
 S3 생성은 local backend
 - terraform.tfstate (local에 생성)
@@ -136,7 +132,7 @@ VPC/EC2/SG/RDS는 remote backend
 > - `$ terraform init`
 >
 > **계획**
-> - `$ terraform plan -refresh=false -out=planfile -var-file=terraform.tfvars`
+> - `$ terraform plan -out=planfile -var-file=terraform.tfvars`
 >
 > **적용**
 > - `$ terraform apply planfile`
@@ -151,7 +147,6 @@ VPC/EC2/SG/RDS는 remote backend
 ---
 
 ### 사용된 리소스 블럭
-
 ```
 1. terraform    block
 2. provider     block
@@ -174,7 +169,6 @@ VPC/EC2/SG/RDS는 remote backend
 ---
 
 # S3 Folder
-
 > 폴더 항목
 >
 > ```
@@ -195,14 +189,14 @@ VPC/EC2/SG/RDS는 remote backend
 > $ cd 00_S3
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile -var-file=terraform.tfvars
+> $ terraform plan -out=planfile -var-file=terraform.tfvars
 > $ terraform apply planfile
 > ```
+- `terraform plan` 명령어의 `-var-file=terraform.tfvars` 옵션의 경우 **`terraform.tfvars`** or **`*.auto.tfvars`** 자동 설정
 
 ---
 
 ## 00_S3/terraform.tfvars
-
 ```hcl
 region = "ap-northeast-2"
 
@@ -221,7 +215,6 @@ tags = {
 ```
 
 ## 00_S3/variable.tf
-
 ```hcl
 variable "region" {
   type        = string
@@ -258,7 +251,6 @@ variable "tags" {
 ---
 
 # VPC Folder
-
 > 폴더 항목
 >
 > ```
@@ -285,14 +277,14 @@ variable "tags" {
 > $ cd 00_S3
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile -var-file=terraform.tfvars
+> $ terraform plan -out=planfile -var-file=terraform.tfvars
 > $ terraform apply planfile
 > ```
+- `terraform plan` 명령어의 `-var-file=terraform.tfvars` 옵션의 경우 **`terraform.tfvars`** or **`*.auto.tfvars`** 자동 설정
 
 ---
 
 ## 01_VPC/terraform.tfvars
-
 ```hcl
 region = "ap-northeast-2"
 
@@ -341,7 +333,6 @@ tags = {
 ```
 
 ## 01_VPC/variable.tf
-
 ```hcl
 variable "region" {
   type        = string
@@ -409,7 +400,6 @@ variable "tags" {
 ---
 
 ## 01_VPC/local.tf
-
 ```hcl
 locals {
   all_subnets = flatten([
@@ -459,7 +449,6 @@ locals {
 ---
 
 ## 01_VPC/output.tf
-
 ```hcl
 output "vpc_id" {
   value = aws_vpc.this.id
@@ -487,7 +476,6 @@ output "subnet_ids" {
 ---
 
 # SG Folder
-
 > 폴더 항목
 >
 > ```
@@ -508,17 +496,17 @@ output "subnet_ids" {
 > 명령어
 >
 > ```
-> $ cd 00_S3
+> $ cd 02_SG
 >
 > $ terraform init
-> $ terraform plan -refresh=false -out=planfile -var-file=terraform.tfvars
+> $ terraform plan -out=planfile -var-file=terraform.tfvars
 > $ terraform apply planfile
 > ```
+- `terraform plan` 명령어의 `-var-file=terraform.tfvars` 옵션의 경우 **`terraform.tfvars`** or **`*.auto.tfvars`** 자동 설정
 
 ---
 
 ## 02_SG/terraform.tfvars
-
 ```hcl
 region = "ap-northeast-2"
 
@@ -757,7 +745,6 @@ rules = {
 ```
 
 ## 02_SG/variable.tf
-
 ```hcl
 variable "region" {
   type        = string
@@ -793,7 +780,6 @@ variable "rules" {
 ---
 
 ## 02_SG/local.tf
-
 ```hcl
 locals {
   all_sg = flatten([
@@ -926,7 +912,6 @@ locals {
 ---
 
 ## 02_SG/security_group.tf
-
 ```hcl
 resource "aws_security_group" "this" {
     for_each = { for i in local.all_sg : i.name => i  }
@@ -948,5 +933,836 @@ resource "aws_security_group" "this" {
 >
 > - https://www.terraform.io/language/meta-arguments/for_each
 > - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+
+---
+
+## 02_SG/output.tf
+```hcl
+output "security_groups" {
+  value = aws_security_group.this
+}
+
+output "security_group_ids" {
+  value = {for key, value in aws_security_group.this : key => value.id}
+}
+```
+
+- **output "security_groups" {...} 블럭 생성 진행**
+  - resource 블럭 aws_security_group.this 의 전체 값
+- **output "security_group_ids" {...} 블럭 생성 진행**
+  - resource 블럭 aws_security_group.this 의 id 값
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/outputs
+> - https://www.terraform.io/language/expressions/for
+
+---
+
+# EC2 Folder
+> 폴더 항목
+>
+> ```
+> 03_EC2
+> ├── data.tf
+> ├── ec2.tf
+> ├── local.tf
+> ├── main.tf
+> ├── output.tf
+> ├── provider.tf
+> ├── terraform.tfvars
+> └── variable.tf
+> ```
+
+---
+
+> 명령어
+>
+> ```
+> $ cd 03_EC2
+>
+> $ terraform init
+> $ terraform plan -out=planfile -var-file=terraform.tfvars
+> $ terraform apply planfile
+> ```
+- `terraform plan` 명령어의 `-var-file=terraform.tfvars` 옵션의 경우 **`terraform.tfvars`** or **`*.auto.tfvars`** 자동 설정
+
+---
+
+## 03_EC2/terraform.tfvars
+```hcl
+region = "ap-northeast-2"
+
+prefix = "test"
+
+tags = {
+  "CreatedByTerraform" = "True"
+  "purpose"            = "Terraform_Test"
+  "owner"              = "MSC"
+  "resource"           = "EC2"
+}
+
+add_instance = {
+  "bastion" = {
+    instance_name     = "bastion"
+    availability_zone = "ap-northeast-2a"
+    instance_type     = "t2.micro"
+    key_name          = "tf_test_key"
+    security_groups   = "bastion"
+    subnet_id         = "10.50.10.0/24"
+    volume_size       = 8
+    volume_type       = "gp2"
+    eip               = true
+  },
+  "web_a" = {
+    instance_name     = "web"
+    availability_zone = "ap-northeast-2a"
+    instance_type     = "t2.micro"
+    key_name          = "tf_test_key"
+    security_groups   = "web"
+    subnet_id         = "10.50.110.0/24"
+    volume_size       = 8
+    volume_type       = "gp2"
+    eip               = false
+  },
+  "web_c" = {
+    instance_name     = "web"
+    availability_zone = "ap-northeast-2c"
+    instance_type     = "t2.micro"
+    key_name          = "tf_test_key"
+    security_groups   = "web"
+    subnet_id         = "10.50.120.0/24"
+    volume_size       = 8
+    volume_type       = "gp2"
+    eip               = false
+  },
+  "was_a" = {
+    instance_name     = "was"
+    availability_zone = "ap-northeast-2a"
+    instance_type     = "t2.micro"
+    key_name          = "tf_test_key"
+    security_groups   = "was"
+    subnet_id         = "10.50.130.0/24"
+    volume_size       = 8
+    volume_type       = "gp2"
+    eip               = false
+  },
+  "was_c" = {
+    instance_name     = "was"
+    availability_zone = "ap-northeast-2c"
+    instance_type     = "t2.micro"
+    key_name          = "tf_test_key"
+    security_groups   = "was"
+    subnet_id         = "10.50.140.0/24"
+    volume_size       = 8
+    volume_type       = "gp2"
+    eip               = false
+  },
+}
+```
+
+## 03_EC2/variable.tf
+```hcl
+variable "region" {
+  type    = string
+  default = ""
+}
+
+variable "prefix" {
+  type    = string
+  default = ""
+}
+
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
+
+variable "add_instance" {
+  type    = map(any)
+  default = {}
+}
+```
+- **variable 과 variable value을 분리해서 작성 진행**
+  - **`terraform.tfvars`** 파일의 **`region`** 은 **`variable.tf`** 파일의 **`region`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`prefix`** 은 **`variable.tf`** 파일의 **`prefix`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`tags`** 은 **`variable.tf`** 파일의 **`tags`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`add_instance`** 은 **`variable.tf`** 파일의 **`add_instance`** 에 매칭 된다.
+
+---
+
+## 03_EC2/local.tf
+```hcl
+locals {
+  eip_instance = flatten([
+    for key, value in var.add_instance : {
+      name              = key
+      eip               = value.eip
+      instance_name     = value.instance_name
+      availability_zone = value.availability_zone
+    }
+    if(true == value.eip)
+  ])
+}
+
+locals {
+  all_instance = flatten([
+    for key, value in var.add_instance : {
+      name              = key
+      instance_name     = value.instance_name
+      availability_zone = value.availability_zone
+      instance_type     = value.instance_type
+      key_name          = value.key_name
+      security_groups   = value.security_groups
+      subnet_id         = value.subnet_id
+      volume_size       = value.volume_size
+      volume_type       = value.volume_type
+    }
+  ])
+}
+```
+- **locals {...} 블럭 생성 진행**
+  - `eip_instance`
+  - `all_instance`
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/locals
+> - https://www.terraform.io/language/expressions/for
+
+---
+
+## 03_EC2/ec2.tf
+```hcl
+# Bastion Server EIP
+resource "aws_eip" "this" {
+  for_each = { for i in local.eip_instance : i.name => i }
+
+  vpc      = each.value.eip
+  instance = aws_instance.this[each.value.name].id
+
+  tags = merge(
+    var.tags,
+    tomap({ Name = format(
+      "%s-tf-%s-%s-eip",
+      var.prefix,
+      each.value.availability_zone,
+      each.value.instance_name
+    ) })
+  )
+}
+
+# AWS EC2 Instance
+resource "aws_instance" "this" {
+  for_each = { for i in local.all_instance : i.name => i }
+
+  ami               = data.aws_ami.amazon-linux-2.id
+  availability_zone = each.value.availability_zone
+  instance_type     = each.value.instance_type
+  key_name          = each.value.key_name
+
+  subnet_id = data.terraform_remote_state.vpc.outputs.subnets[each.value.subnet_id].id
+
+  vpc_security_group_ids = [
+    data.terraform_remote_state.sg.outputs.security_groups[each.value.security_groups].id,
+  ]
+
+
+  root_block_device {
+    volume_size = each.value.volume_size
+    volume_type = each.value.volume_type
+
+    tags = merge(
+      var.tags,
+      tomap({ Name = format(
+        "%s-tf-%s-%s-ebs",
+        var.prefix,
+        each.value.availability_zone,
+        each.value.instance_name
+      ) })
+    )
+  }
+  lifecycle { create_before_destroy = true }
+
+  tags = merge(
+    var.tags,
+    tomap({ Name = format(
+      "%s-tf-%s-%s",
+      var.prefix,
+      each.value.availability_zone,
+      each.value.instance_name
+    ) })
+  )
+}
+```
+- **resource "aws_eip" "this" {...} 블럭 생성 진행**
+  - `for_each` Meta-Argument 사용하여 해당 블럭 생성
+    - `local.tf` 파일 `local.eip_instance` name 값 만큼 생성
+      - `local.eip_instance` 값은 `variable.tf` 파일의 `add_instance` 값 참조
+
+- **resource "aws_instance" "this" {...} 블럭 생성 진행**
+  - `for_each` Meta-Argument 사용하여 해당 블럭 생성
+    - `local.tf` 파일 `local.all_instance` name 값 만큼 생성
+      - `local.all_instance` 값은 `variable.tf` 파일의 `add_instance` 값 참조
+      
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/meta-arguments/for_each
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
+
+---
+
+## 03_EC2/output.tf
+```hcl
+output "ec2_instances" {
+    value = aws_instance.this
+}
+output "ec2_instance_id" {
+    value = {for key, value in aws_instance.this : key => value.id}
+}
+```
+
+- **output "ec2_instances" {...} 블럭 생성 진행**
+  - resource 블럭 aws_instance.this 의 전체 값
+- **output "ec2_instance_id" {...} 블럭 생성 진행**
+  - resource 블럭 aws_instance.this 의 id 값
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/outputs
+> - https://www.terraform.io/language/expressions/for
+
+---
+
+# ALB Folder
+> 폴더 항목
+>
+> ```
+> 04_ALB
+> ├── data.tf
+> ├── elb_alb.tf
+> ├── elb_alb_listener.tf
+> ├── elb_alb_tg.tf
+> ├── local.tf
+> ├── main.tf
+> ├── output.tf
+> ├── provider.tf
+> ├── terraform.tfvars
+> └── variable.tf
+> ```
+
+---
+
+> 명령어
+>
+> ```
+> $ cd 04_ALB
+>
+> $ terraform init
+> $ terraform plan -out=planfile -var-file=terraform.tfvars
+> $ terraform apply planfile
+> ```
+- `terraform plan` 명령어의 `-var-file=terraform.tfvars` 옵션의 경우 **`terraform.tfvars`** or **`*.auto.tfvars`** 자동 설정
+
+---
+
+## 04_ALB/terraform.tfvars
+```hcl
+region = "ap-northeast-2"
+
+prefix = "test"
+
+add_alb = {
+  front = {
+    alb_name           = "front"
+    load_balancer_type = "application"
+    internal           = false
+    subnet_cidr_a      = "10.50.10.0/24"
+    subnet_cidr_c      = "10.50.20.0/24"
+    target_type     = "instance"
+    protocol        = "HTTP"
+    port            = 80
+    instance_target = ["web_a", "web_c"]
+  },
+  backend = {
+    alb_name           = "backend"
+    load_balancer_type = "application"
+    internal           = true
+    subnet_cidr_a      = "10.50.110.0/24"
+    subnet_cidr_c      = "10.50.120.0/24"
+    target_type     = "instance"
+    protocol        = "HTTP"
+    port            = 8080
+    instance_target = ["was_a", "was_c"]
+  }
+}
+
+tags = {
+  "CreatedByTerraform" = "True"
+  "purpose"            = "Terraform_Test"
+  "owner"              = "MSC"
+  "resource"           = "ALB"
+}
+```
+
+## 04_ALB/variable.tf
+```hcl
+variable "region" {
+  type        = string
+  default     = ""
+}
+
+variable "prefix" {
+  type    = string
+  default = ""
+}
+
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
+
+variable "add_alb" {
+  type    = map(any)
+  default = {}
+}
+```
+
+- **variable 과 variable value을 분리해서 작성 진행**
+  - **`terraform.tfvars`** 파일의 **`region`** 은 **`variable.tf`** 파일의 **`region`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`prefix`** 은 **`variable.tf`** 파일의 **`prefix`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`tags`** 은 **`variable.tf`** 파일의 **`tags`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`add_alb`** 은 **`variable.tf`** 파일의 **`add_alb`** 에 매칭 된다.
+
+---
+
+## 04_ALB/local.tf
+```hcl
+locals {
+  all_alb = flatten([
+    for key, value in var.add_alb : {
+      name               = key
+      alb_name           = value.alb_name
+      load_balancer_type = value.load_balancer_type
+      internal           = value.internal
+      subnet_cidr_a      = value.subnet_cidr_a
+      subnet_cidr_c      = value.subnet_cidr_c
+    }
+  ])
+}
+
+locals {
+  target_group = flatten([
+    for key, value in var.add_alb : {
+      name        = key
+      alb_name    = value.alb_name
+      target_type = value.target_type
+      port        = value.port
+      protocol    = value.protocol
+    }
+  ])
+}
+
+locals {
+  target_group_attach = flatten([
+    for key, value in var.add_alb : [
+      for item in value.instance_target : {
+        name            = key
+        alb_name        = value.alb_name
+        port            = value.port
+        instance_target = item
+      }
+    ]
+  ])
+}
+
+locals {
+  listener = flatten([
+    for key, value in var.add_alb : {
+      name     = key
+      alb_name = value.alb_name
+      port     = value.port
+      protocol = value.protocol
+    }
+  ])
+}
+```
+- **locals {...} 블럭 생성 진행**
+  - `all_alb`
+  - `target_group`
+  - `target_group_attach`
+  - `listener`
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/locals
+> - https://www.terraform.io/language/expressions/for
+
+---
+
+## 04_ALB/elb_alb.tf
+```hcl
+resource "aws_lb" "this" {
+  for_each           = { for i in local.all_alb : i.name => i }
+  name               = format("%s-tf-%s-alb", var.prefix, each.value.name)
+  internal           = each.value.internal
+  load_balancer_type = each.value.load_balancer_type
+  subnets = [
+    data.terraform_remote_state.vpc.outputs.subnets[each.value.subnet_cidr_a].id,
+    data.terraform_remote_state.vpc.outputs.subnets[each.value.subnet_cidr_c].id
+    # data.terraform_remote_state.vpc.outputs.subnets[[each.value.subnet_cidr]].id
+  ]
+  security_groups = [
+    data.terraform_remote_state.sg.outputs.security_groups[each.value.name].id
+    # data.terraform_remote_state.sg.outputs.security_groups[each.value.alb_name[*]].id
+  ]
+
+  tags = merge(var.tags, tomap({ Name = format("%s-tf-%s-alb", var.prefix, each.value.alb_name) }))
+}
+
+```
+- **resource "aws_lb" "this" {...} 블럭 생성 진행**
+  - `for_each` Meta-Argument 사용하여 해당 블럭 생성
+    - `local.tf` 파일 `local.all_alb` name 값 만큼 생성
+      - `local.all_alb` 값은 `variable.tf` 파일의 `add_alb` 값 참조
+
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/meta-arguments/for_each
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
+
+---
+
+## 04_ALB/output.tf
+```hcl
+output "alb_ids" {
+  # value = aws_lb.this
+  value = {for key, value in aws_lb.this : key => value.id}
+}
+
+output "alb_tg_ids" {
+  # value = aws_lb_target_group.this
+  value = {for key, value in aws_lb_target_group.this : key => value.id}
+}
+
+output "alb_tg_attach_ids" {
+  # value = aws_lb_target_group_attachment.this
+  value = {for key, value in aws_lb_target_group_attachment.this : key => value.id}
+}
+```
+
+- **output "alb_ids" {...} 블럭 생성 진행**
+  - resource 블럭 aws_lb.this 의 id 값
+- **output "alb_tg_ids" {...} 블럭 생성 진행**
+  - resource 블럭 aws_lb_target_group.this 의 id 값
+- **output "alb_tg_attach_ids" {...} 블럭 생성 진행**
+  - resource 블럭 aws_lb_target_group_attachment.this 의 id 값
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/outputs
+> - https://www.terraform.io/language/expressions/for
+
+---
+
+# RDS Folder
+> 폴더 항목
+>
+> ```
+> 05_RDS
+> ├── data.tf
+> ├── local.tf
+> ├── main.tf
+> ├── output.tf
+> ├── parameter_group.tf
+> ├── provider.tf
+> ├── rds_aurora.tf
+> ├── subnet_group.tf
+> ├── terraform.tfvars
+> └── variable.tf
+> ```
+
+---
+
+> 명령어
+>
+> ```
+> $ cd 05_RDS
+>
+> $ terraform init
+> $ terraform plan -out=planfile -var-file=terraform.tfvars
+> $ terraform apply planfile
+> ```
+- `terraform plan` 명령어의 `-var-file=terraform.tfvars` 옵션의 경우 **`terraform.tfvars`** or **`*.auto.tfvars`** 자동 설정
+
+---
+
+## 05_RDS/terraform.tfvars
+```hcl
+region = "ap-northeast-2"
+
+prefix = "test"
+
+add_rds_aurora = {
+  msc_rds_aurora = {
+    rds_name = "msc-rds"
+
+    # RDS Engine info
+    engine         = "aurora-mysql"
+    engine_version = "8.0.mysql_aurora.3.02.0"
+
+    # RDS ID/PW info
+    database_name   = "testterraformdb"
+    master_username = "admin"
+    master_password = "DBAdmin1004"
+
+    # subnet_group info
+    rds_subnet_group_cidr_a = "10.50.210.0/24"
+    rds_subnet_group_cidr_c = "10.50.220.0/24"
+
+    # parameter_group info
+    parameter_group_name   = "aurora-mysql8-0"
+    parameter_group_family = "aurora-mysql8.0"
+
+    security_group_name = "rds"
+
+    instance_class = "db.t3.medium"
+    instance_name_list = ["bule", "green", ] #// "leman", "red"]
+  },
+}
+
+add_parameter = {
+  character_set_server = {
+    name  = "character_set_server"
+    value = "utf8"
+  },
+  character_set_client = {
+    name  = "character_set_client"
+    value = "utf8"
+  },
+}
+
+tags = {
+  "CreatedByTerraform" = "True"
+  "purpose"            = "Terraform_Test"
+  "owner"              = "MSC"
+  "resource"           = "ALB"
+}
+```
+
+## 05_RDS/variable.tf
+```hcl
+variable "region" {
+  type    = string
+  default = ""
+}
+
+variable "prefix" {
+  type    = string
+  default = ""
+}
+
+variable "add_rds_aurora" {
+  type    = map(any)
+  default = {}
+}
+
+variable "add_parameter" {
+  type = map(any)
+  default = {}
+}
+
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
+```
+- **variable 과 variable value을 분리해서 작성 진행**
+  - **`terraform.tfvars`** 파일의 **`region`** 은 **`variable.tf`** 파일의 **`region`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`prefix`** 은 **`variable.tf`** 파일의 **`prefix`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`tags`** 은 **`variable.tf`** 파일의 **`tags`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`add_rds_aurora`** 은 **`variable.tf`** 파일의 **`add_rds_aurora`** 에 매칭 된다.
+  - **`terraform.tfvars`** 파일의 **`add_parameter`** 은 **`variable.tf`** 파일의 **`add_parameter`** 에 매칭 된다.
+
+---
+
+## 05_RDS/local.tf
+```hcl
+llocals {
+  subnet_group = flatten([
+    for key, value in var.add_rds_aurora : {
+      name                    = key
+      rds_name                = value.rds_name
+      rds_subnet_group_cidr_a = value.rds_subnet_group_cidr_a
+      rds_subnet_group_cidr_c = value.rds_subnet_group_cidr_c
+    }
+  ])
+}
+
+locals {
+  rds_parameter = flatten([
+    for key, value in var.add_rds_aurora : {
+      name                   = key
+      parameter_group_name   = value.parameter_group_name
+      parameter_group_family = value.parameter_group_family
+    }
+  ])
+}
+
+locals {
+  rds_cluter = flatten([
+    for key, value in var.add_rds_aurora : {
+      name                = key
+      rds_name            = value.rds_name
+      engine              = value.engine
+      engine_version      = value.engine_version
+      database_name       = value.database_name
+      master_username     = value.master_username
+      master_password     = value.master_password
+      security_group_name = value.security_group_name
+    }
+  ])
+}
+
+locals {
+  rds_instance = flatten([
+    for key, value in var.add_rds_aurora : [
+      for item in value.instance_name_list : {
+        name               = key
+        instance_name_list = item
+        rds_name           = value.rds_name
+        engine             = value.engine
+        engine_version     = value.engine_version
+        instance_class     = value.instance_class
+      }
+    ]
+  ])
+}
+```
+- **locals {...} 블럭 생성 진행**
+  - `subnet_group`
+  - `rds_parameter`
+  - `rds_cluter`
+  - `rds_instance`
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/locals
+> - https://www.terraform.io/language/expressions/for
+
+---
+
+## 05_RDS/rds_aurora.tf
+```hcl
+# AWS RDS Cluster
+resource "aws_rds_cluster" "this" {
+
+  for_each = { for i in local.rds_cluter : i.name => i }
+
+  cluster_identifier   = format("%s-tf-%s-cluster", var.prefix, each.value.rds_name)
+  db_subnet_group_name = aws_db_subnet_group.this[each.value.name].id
+
+  engine         = each.value.engine
+  engine_version = each.value.engine_version
+
+  # availability_zones                = var.azs
+
+  database_name   = each.value.database_name
+  master_username = each.value.master_username
+  master_password = each.value.master_password
+
+  port = 3306
+
+  vpc_security_group_ids = [
+    data.terraform_remote_state.sg.outputs.security_group_ids[each.value.security_group_name]
+  ]
+
+  skip_final_snapshot = true
+
+  backup_retention_period = 1
+
+  db_cluster_parameter_group_name  = aws_rds_cluster_parameter_group.this[each.value.name].id
+  db_instance_parameter_group_name = aws_db_parameter_group.this[each.value.name].id
+
+  tags = merge(var.tags, tomap({ Name = format("%s-tf-%s-cluster", var.prefix, each.value.rds_name) }))
+}
+
+# AWS RDS Cluster instance
+resource "aws_rds_cluster_instance" "this" {
+  for_each = { for i in local.rds_instance : i.instance_name_list => i }
+
+  identifier = format("%s-tf-%s-instance-%s", var.prefix, each.value.rds_name, each.value.instance_name_list)
+
+  cluster_identifier   = aws_rds_cluster.this[each.value.name].id
+  db_subnet_group_name = aws_db_subnet_group.this[each.value.name].id
+
+
+  instance_class = each.value.instance_class
+
+  engine         = each.value.engine
+  engine_version = each.value.engine_version
+
+  db_parameter_group_name = aws_db_parameter_group.this[each.value.name].id
+
+
+  publicly_accessible   = false
+  apply_immediately     = false
+  copy_tags_to_snapshot = false
+
+  tags = merge(var.tags, tomap({ Name = format("%s-tf-%s-instance-%s", var.prefix, each.value.rds_name, each.value.instance_name_list)}))
+}
+```
+- **resource "aws_rds_cluster" "this" {...} 블럭 생성 진행**
+  - `for_each` Meta-Argument 사용하여 해당 블럭 생성
+    - `local.tf` 파일 `local.rds_cluter` name 값 만큼 생성
+      - `local.rds_cluter` 값은 `variable.tf` 파일의 `add_rds_aurora` 값 참조
+
+- **resource "aws_rds_cluster_instance" "this" {...} 블럭 생성 진행**
+  - `for_each` Meta-Argument 사용하여 해당 블럭 생성
+    - `local.tf` 파일 `local.rds_instance` name 값 만큼 생성
+      - `local.rds_instance` 값은 `variable.tf` 파일의 `add_rds_aurora` 값 참조
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/meta-arguments/for_each
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster
+> - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster_instance
+
+---
+
+## 05_RDS/output.tf
+```hcl
+output "cluster_parameter_group" {
+  value = aws_rds_cluster_parameter_group.this
+}
+
+output "cluster_parameter_group_id" {
+  value = { for key, value in aws_rds_cluster_parameter_group.this : key => value.id }
+}
+
+output "db_parameter_group" {
+  value = aws_db_parameter_group.this
+}
+output "db_parameter_group_id" {
+  value = { for key, value in aws_db_parameter_group.this : key => value.id }
+}
+```
+
+- **output "cluster_parameter_group" {...} 블럭 생성 진행**
+  - resource 블럭 aws_rds_cluster_parameter_group.this 의 전체 값
+- **output "cluster_parameter_group_id" {...} 블럭 생성 진행**
+  - resource 블럭 aws_rds_cluster_parameter_group.this 의 id 값
+- **output "db_parameter_group" {...} 블럭 생성 진행**
+  - resource 블럭 aws_db_parameter_group.this 의 전체 값
+- **output "db_parameter_group_id" {...} 블럭 생성 진행**
+  - resource 블럭 aws_db_parameter_group.this 의 id 값
+
+> 참고용 URL
+>
+> - https://www.terraform.io/language/values/outputs
+> - https://www.terraform.io/language/expressions/for
 
 ---
