@@ -1,9 +1,6 @@
 # Code guide
-
 ## AWS resource(service) 단위로 \*.tf 파일 구성
-
 ### 파일 구성
-
 ```
 .
 ├── main.tf
@@ -75,7 +72,6 @@
 ---
 
 ### 사용된 리소스 블럭
-
 ```
 1. terraform    block
 2. provider     block
@@ -94,7 +90,6 @@
 ## main.tf
 
 ### terraform 블럭
-
 ```hcl
 terraform {
   required_version = ">= 1.2.2"
@@ -117,7 +112,6 @@ terraform {
 ## `main.tf 파일은 향후 module 블럭 설정 파일로 사용 예정`
 
 ## provider.tf
-
 ```hcl
 providre "aws" {
     region = "ap-northeat-2"
@@ -129,7 +123,6 @@ providre "aws" {
 ---
 
 ## vpc.tf
-
 ```hcl
 resource "aws_vpc" "this" {
   cidr_block = "10.50.0.0/16"
@@ -152,7 +145,6 @@ resource "aws_vpc" "this" {
 ---
 
 ## subnet.tf
-
 ```hcl
 resource "aws_subnet" "main_pub_a_subnet" {
   vpc_id            = aws_vpc.this.id
@@ -184,7 +176,6 @@ resource "aws_subnet" "main_pub_a_subnet" {
 ---
 
 ## internet_gateway.tf
-
 ```hcl
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
@@ -207,7 +198,6 @@ resource "aws_internet_gateway" "this" {
 ---
 
 ## nat_gateway.tf
-
 ```hcl
 # EIP 생성
 resource "aws_eip" "natgw_a_eip" {
@@ -251,7 +241,6 @@ resource "aws_nat_gateway" "natgw_a" {
 ---
 
 ## route_table.tf
-
 ```hcl
 # RTB 생성
 resource "aws_route_table" "pub_a_main_rtb" {
@@ -286,7 +275,6 @@ resource "aws_route_table_association" "pub_a_main_rtb" {
 ---
 
 ## route_table_route.tf
-
 ```hcl
 resource "aws_route" "pub_a_main_rt" {
   route_table_id = aws_route_table.pub_a_main_rtb.id
@@ -304,7 +292,6 @@ resource "aws_route" "pub_a_main_rt" {
 ---
 
 ## security_group.tf
-
 ```hcl
 resource "aws_security_group" "bastion_sg" {
   description = "Bastion Server Security group"
@@ -370,7 +357,6 @@ resource "aws_security_group" "bastion_sg" {
 ---
 
 ## security_group_rule
-
 ```hcl
 resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
   description       = "SSH - Bastion Server inbound rule"
@@ -416,7 +402,6 @@ resource "aws_security_group_rule" "bastion_ssh_ingress_rule" {
 ---
 
 ## ec2_instance.tf
-
 ```hcl
 resource "aws_instance" "bastion" {
   ami               = "ami-0fd0765afb77bcca7"
@@ -481,7 +466,6 @@ resource "aws_eip" "bastion_eip" {
 ---
 
 ## elb_alb.tf
-
 ```hcl
 resource "aws_lb" "front_alb" {
   name               = "test-tf-ext-front-alb"
@@ -528,7 +512,6 @@ resource "aws_lb" "front_alb" {
 ---
 
 ## elb_alb_tg.tf
-
 ```hcl
 resource "aws_lb_target_group" "front_alb_tg" {
   name        = "test-tf-front-alb-tg"
@@ -578,7 +561,6 @@ resource "aws_lb_target_group_attachment" "front_alb_tg_a_attch" {
 ---
 
 ## elb_alb_listener.tf
-
 ```hcl
 resource "aws_lb_listener" "front_alb_listener" {
   load_balancer_arn = aws_lb.front_alb.arn
@@ -615,7 +597,6 @@ resource "aws_lb_listener" "front_alb_listener" {
 ---
 
 ## rds_aurora_subnet.tf
-
 ```hcl
 resource "aws_db_subnet_group" "this" {
   description = "RDS Aurora Database subnet group"
@@ -646,7 +627,6 @@ resource "aws_db_subnet_group" "this" {
 ---
 
 ## rds_aurora_pg.tf
-
 ```hcl
 resource "aws_rds_cluster_parameter_group" "this" {
   name   = "test-tf-aurora-mysql8-0"
@@ -702,7 +682,6 @@ resource "aws_db_parameter_group" "this" {
 ---
 
 ## rds_aurora.tf
-
 ```hcl
 resource "aws_rds_cluster" "this" {
   cluster_identifier               = "test-tf-rds-aurora-cluster"
@@ -798,26 +777,25 @@ resource "aws_rds_cluster_instance" "this" {
 ```
 
 - **resource "aws_rds_cluster_instance" "this" {...} 블럭 생성 진행**
-
   - count
     - 생성하고자 하는 인스턴스 갯수
-  - identifier
 
+  - identifier
     - 생성하고자 하는 인스턴스의 식별자(명칭/이름)
       - count.index 사용하여 생성되는 순번 지정
 
   - cluster_identifier
     - 위에서 생성한 클러스터 설정
-  - db_subnet_group_name
 
+  - db_subnet_group_name
     - 위에서 생성한 서브넷 그룹 설정
 
   - instance_class
-
     - RDS 인스턴스 생성시 type 설정
 
   - engine
     - RDS 인스턴스 생성시 엔진 설정
+
   - engine_version
     - RDS 인스턴스 생성시 엔진 버전 설정
       - 선택 가능한 엔진 버전
@@ -860,7 +838,6 @@ output "vpc_id" {
     - vpc resource 블럭의 ID 값만 확인 가능
 
 #### **output 적용시 확인 내용 (Sample)**
-
 ```hcl
 Outputs:
 
