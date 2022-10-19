@@ -1,3 +1,4 @@
+# AWS RDS Cluster
 resource "aws_rds_cluster" "this" {
 
   for_each = { for i in local.rds_cluter : i.name => i }
@@ -35,6 +36,8 @@ resource "aws_rds_cluster" "this" {
 # 동일 구조 로컬변수 생성 및 데이터 가공~ 향후 고도화시 능동 확장 고려하여 베이스값만 생성 예정
 # 1. 변수(키값) 기준으로 생성 되도록 구성 할것!
 # 2. 옵션값 bool 값도? 전체 입/출력 처리 할것인지 고민하면서 작성해야됨 향후에 확인하자.
+
+# AWS RDS Cluster instance
 resource "aws_rds_cluster_instance" "this" {
   for_each = { for i in local.rds_instance : i.instance_name_list => i }
 
@@ -56,5 +59,5 @@ resource "aws_rds_cluster_instance" "this" {
   apply_immediately     = false
   copy_tags_to_snapshot = false
 
-  tags = merge(var.tags, tomap({ Name = format("%s-tf-%s-instance-%s", var.prefix, each.value.rds_name, each.value.instance_name_list)}))
+  tags = merge(var.tags, tomap({ Name = format("%s-tf-%s-instance-%s", var.prefix, each.value.rds_name, each.value.instance_name_list) }))
 }
