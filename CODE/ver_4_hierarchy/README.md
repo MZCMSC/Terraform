@@ -122,7 +122,7 @@ VPC/EC2/SG/RDS는 remote backend
 > - `$ terraform init`
 >
 > **계획**
-> - `$ terraform plan -out=planfile -refresh=false`
+> - `$ terraform plan -out=planfile`
 >
 > **적용**
 > - `$ terraform apply planfile`
