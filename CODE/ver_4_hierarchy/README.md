@@ -6,20 +6,20 @@
 .
 ├── 00_S3
 │   ├── main.tf
-│   ├── outputs.tf
+│   ├── output.tf
 │   ├── provider.tf
 │   ├── state-backend.tf
-│   └── variables.tf
+│   └── variabl.tf
 │
 ├── 01_VPC
 │   ├── internat_gateway.tf
 │   ├── main.tf
-│   ├── nat_gateways.tf
+│   ├── nat_gateway.tf
 │   ├── output.tf
 │   ├── provider.tf
 │   ├── route_table.tf
 │   ├── route_table_route.tf
-│   ├── subnets.tf
+│   ├── subnet.tf
 │   ├── variable.tf
 │   └── vpc.tf
 │
@@ -30,7 +30,7 @@
 │   ├── provider.tf
 │   ├── security_group.tf
 │   ├── security_group_rule.tf
-│   └── variables.tf
+│   └── variable.tf
 │
 ├── 03_EC2_bastion
 │   ├── data.tf
@@ -162,10 +162,10 @@ VPC/EC2/SG/RDS는 remote backend
 > ```
 > 00_S3
 > ├── main.tf
-> ├── outputs.tf
+> ├── output.tf
 > ├── provider.tf
 > ├── state-backend.tf
-> └── variables.tf
+> └── variable.tf
 > ```
 
 ---
@@ -328,7 +328,7 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 
   - tag
     - merge(var.tags, tomap({ Name = format("%s", var.s3_bucket) }))
-      - **`merge`** . **`tomap`** . **`formet`** 함수 사용
+      - **`merge`** . **`tomap`** . **`format`** 함수 사용
         - **`variable.tf`** 파일에서 생성한 **`s3_bucket`** & **`tags`** 값 참조
           - 1. `format()` 함수 사용 `s3_bucket`의 값을 `"test-terraform-state-backend-msc"`로 리턴
           - 2. `tomap()` 함수 사용 `Name` , `format()` 리턴
@@ -374,12 +374,12 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 > 01_VPC
 > ├── internat_gateway.tf
 > ├── main.tf
-> ├── nat_gateways.tf
+> ├── nat_gateway.tf
 > ├── output.tf
 > ├── provider.tf
 > ├── route_table.tf
 > ├── route_table_route.tf
-> ├── subnets.tf
+> ├── subnet.tf
 > ├── variable.tf
 > └── vpc.tf
 > ```
@@ -513,7 +513,7 @@ resource "aws_vpc" "this" {
         - `cidr_block = var.vpc_cidr` **or** `cidr_block = "10.50.0.0/16""` 똑같다
   - tag
     - merge(var.tags, tomap({Name = format("%s-%s", var.prefix, var.vpc_name)}))
-      - **`merge`** . **`tomap`** . **`formet`** 함수 사용
+      - **`merge`** . **`tomap`** . **`format`** 함수 사용
         - **`variable.tf`** 파일에서 생성한 **`prefix`** & **`tags`** & **`vpc_name`** 값 참조
           - 1. `merge()` 함수 사용 `var.tags` , **`tomap()`** 값 **병합**
           - 2. `tomap()` 함수 사용 `Name` , **`format()`** 함수 값 리턴
@@ -552,7 +552,7 @@ resource "aws_subnet" "main_pub_c_subnet" {
       - `cidr_block = var.subnets.pub_a.cidr` **or** `cidr_block = "10.50.10.0/24"` 똑같다
   - tag
     - merge(var.tags, tomap({ Name = format("%s-%s-%s-public-main-subnet", var.prefix, var.vpc_name, var.azs.a_zone)}))
-      - **`merge`** . **`tomap`** . **`formet`** 함수 사용
+      - **`merge`** . **`tomap`** . **`format`** 함수 사용
         - **`variable.tf`** 파일에서 생성한 **`prefix`** & **`tags`** & **`vpc_name`** & **`vpc_name`** 값 참조
           - 1. `merge()` 함수 사용 `var.tags` , `tomap()` 값 **병합**
           - 2. `tomap()` 함수 사용 `Name` , **`format()`** 함수 값 리턴
@@ -564,7 +564,7 @@ resource "aws_subnet" "main_pub_c_subnet" {
       - `cidr_block = var.subnets.pub_a.cidr` **or** `cidr_block = "10.50.20.0/24"` 똑같다
   - tag
     - merge(var.tags, tomap({ Name = format("%s-%s-%s-public-main-subnet", var.prefix, var.vpc_name, var.azs.c_zone)}))
-      - **`merge`** . **`tomap`** . **`formet`** 함수 사용
+      - **`merge`** . **`tomap`** . **`format`** 함수 사용
         - **`variable.tf`** 파일에서 생성한 **`prefix`** & **`tags`** & **`vpc_name`** & **`vpc_name`** 값 참조
           - 1. `merge()` 함수 사용 `var.tags` , `tomap()` 값 **병합**
           - 2. `tomap()` 함수 사용 `Name` , **`format()`** 함수 값 리턴
@@ -591,7 +591,7 @@ resource "aws_subnet" "main_pub_c_subnet" {
 > ├── provider.tf
 > ├── security_group.tf
 > ├── security_group_rule.tf
-> └── variables.tf
+> └── variable.tf
 > ```
 
 ---
@@ -1224,7 +1224,7 @@ resource "aws_lb" "front_alb" {
 - **resource "aws_lb" "front_alb" {...} 블럭 생성 진행**
   - name , tags
     - format("%s-tf-%s", var.prefix, var.add_alb.front.name)
-      - **`formet`** 함수 사용
+      - **`format`** 함수 사용
         - **`variable.tf`** 파일에서 생성한 **`prefix`** & **`add_alb_front`** . **`name`** 값 참조
         - **`"test-tf-front-alb"`** 동일
 
@@ -1371,7 +1371,7 @@ resource "aws_rds_cluster" "this" {
 - **resource "aws_rds_cluster" "this" {...} 블럭 생성 진행**
   - cluster_identifier
     - format("%s-tf-%s-cluster", var.prefix, var.rds_name) //
-      - **`formet`** 함수 사용
+      - **`format`** 함수 사용
       - **`variable.tf`** 파일에서 생성한 **`prefix`** & **`rds_name`** 값 참조
         - **`"test-tf-rds-aurora-cluster"`** 동일
   - engine
@@ -1395,7 +1395,7 @@ resource "aws_rds_cluster" "this" {
       - **`variable.tf`** 파일에서 생성한 **`rds_cluster_identifier`** . **`master_password`** 값 참조
   - tags
     - merge(var.tags, tomap({ Name = format("%s-tf-%s-cluster", var.prefix, var.rds_name) }))
-      - **`merge`** . **`tomap`** . **`formet`** 함수 사용
+      - **`merge`** . **`tomap`** . **`format`** 함수 사용
         - **`variable.tf`** 파일에서 생성한 **`prefix`** & **`rds_name`** 값 참조
           - 1. `format()` 함수 사용 `prefix` . `rds_name` 값 리턴
           - 2. `tomap()` 함수 사용 `Name` , `format()` 리턴
