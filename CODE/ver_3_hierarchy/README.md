@@ -12,7 +12,7 @@
 ├── 01_VPC
 │   ├── internat_gateway.tf
 │   ├── main.tf
-│   ├── nat_gateways.tf
+│   ├── nat_gateway.tf
 │   ├── output.tf
 │   ├── provider.tf
 │   ├── route_table.tf
@@ -286,7 +286,7 @@ resource "aws_dynamodb_table" "this" {
 > 01_VPC
 > ├── internat_gateway.tf
 > ├── main.tf
-> ├── nat_gateways.tf
+> ├── nat_gateway.tf
 > ├── output.tf
 > ├── provider.tf
 > ├── route_table.tf
