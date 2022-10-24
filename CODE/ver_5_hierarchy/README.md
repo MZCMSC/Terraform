@@ -5,22 +5,22 @@
 .
 ├── 00_S3
 │   ├── main.tf
-│   ├── outputs.tf
+│   ├── output.tf
 │   ├── provider.tf
 │   ├── state-backend.tf
 │   ├── terraform.tfvars
-│   └── variables.tf
+│   └── variable.tf
 │
 ├── 01_VPC
 │   ├── internat_gateway.tf
 │   ├── local.tf
 │   ├── main.tf
-│   ├── nat_gateways.tf
+│   ├── nat_gateway.tf
 │   ├── output.tf
 │   ├── provider.tf
 │   ├── route_table.tf
 │   ├── security_group.tf
-│   ├── subnets.tf
+│   ├── subnet.tf
 │   ├── terraform.tfvars
 │   ├── variable.tf
 │   └── vpc.tf
@@ -34,7 +34,7 @@
 │   ├── security_group.tf
 │   ├── security_group_rule.tf
 │   ├── terraform.tfvars
-│   └── variables.tf
+│   └── variable.tf
 │
 ├── 03_EC2
 │   ├── data.tf
@@ -174,11 +174,11 @@ VPC/EC2/SG/RDS는 remote backend
 > ```
 > 00_S3
 > ├── main.tf
-> ├── outputs.tf
+> ├── output.tf
 > ├── provider.tf
 > ├── state-backend.tf
 > ├── terraform.tfvars
-> └── variables.tf
+> └── variable.tf
 > ```
 
 ---
@@ -258,12 +258,12 @@ variable "tags" {
 > ├── internat_gateway.tf
 > ├── local.tf
 > ├── main.tf
-> ├── nat_gateways.tf
+> ├── nat_gateway.tf
 > ├── output.tf
 > ├── provider.tf
 > ├── route_table.tf
 > ├── security_group.tf
-> ├── subnets.tf
+> ├── subnet.tf
 > ├── terraform.tfvars
 > ├── variable.tf
 > └── vpc.tf
@@ -488,7 +488,7 @@ output "subnet_ids" {
 > ├── security_group.tf
 > ├── security_group_rule.tf
 > ├── terraform.tfvars
-> └── variables.tf
+> └── variable.tf
 > ```
 
 ---
