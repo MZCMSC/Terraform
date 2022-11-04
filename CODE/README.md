@@ -1,4 +1,4 @@
-# Terraform Code
+# Terraform Code (MSC외 대외비)
 
 ### Terraform example code
 ```

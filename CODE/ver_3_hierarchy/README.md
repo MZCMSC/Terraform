@@ -1,4 +1,4 @@
-# Code guide
+# Code guide (MSC외 대외비)
 ## AWS resource(서비스) 단위로 폴더 구성
 ### 폴더 및 파일 구성
 ```

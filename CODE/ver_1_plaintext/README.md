@@ -1,4 +1,4 @@
-# Code guide
+# Code guide (MSC외 대외비)
 ## main.tf 파일 하나로 code 되어 있음.
 ### 파일 구성
 ```

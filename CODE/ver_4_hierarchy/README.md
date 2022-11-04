@@ -1,4 +1,4 @@
-# Code guide
+# Code guide (MSC외 대외비)
 ## AWS 서비스 단위 폴더 구성 및 변수/함수 사용
 ### 폴더 및 파일 구성
 

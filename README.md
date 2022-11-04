@@ -1,4 +1,4 @@
-# Terraform
+# Terraform (MSC외 대외비)
 
 ### MSC Terraform document & code
 

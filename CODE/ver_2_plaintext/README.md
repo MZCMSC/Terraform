@@ -1,4 +1,4 @@
-# Code guide
+# Code guide (MSC외 대외비)
 ## AWS resource(service) 단위로 \*.tf 파일 구성
 ### 파일 구성
 ```
