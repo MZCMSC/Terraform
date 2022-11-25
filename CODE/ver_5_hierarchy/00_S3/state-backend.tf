@@ -12,7 +12,7 @@ resource "aws_dynamodb_table" "terraform_state_locks" {
 
 resource "aws_s3_bucket" "terraform_state_backend" {
   bucket = var.s3_bucket
-  tags = merge(var.tags, tomap({ Name = format("%s", var.s3_bucket) }))
+  tags   = merge(var.tags, tomap({ Name = format("%s", var.s3_bucket) }))
 }
 
 resource "aws_s3_bucket_versioning" "this" {

@@ -25,31 +25,31 @@
 
 #### [ 폴더구성 및 설명 ]
 
-1.  **`var_1_plaintext`**
+1.  **`ver_1_plaintext`**
 
     - **_`main.tf`_** 파일에 일괄적으로 생성하고자 하는 리소스 설정
       >
 
-2.  **`var_2_plaintext`**
+2.  **`ver_2_plaintext`**
 
     - **_`main.tf`_** 파일 및 각 서비스 혹은 용도의 블럭을 나눠서 **`*.tf`** 파일로 구성
       >
 
-3.  **`var_3_hierarchy`**
+3.  **`ver_3_hierarchy`**
 
     - **`S3 bucket`** 을 사용하여 `terraform.tfstate`파일 관리 구성
     - `VPC`, `SG`, `EC2`, `ALB`, `RDS` 폴더에서 각각 **`생성/수정/삭제`** 가능하도록 구성
     - **`backend`** & **`output`** 활용법 확인
       >
 
-4.  **`var_4_hierarchy`**
+4.  **`ver_4_hierarchy`**
 
     - **`variable`** 사용하여 여러 block에서 사용하도록 구성
     - 반복적으로 사용 가능한 값을 변수로 생성하여 처리
     - **`function`** 사용
       >
 
-5.  **`var_5_hierarchy`**
+5.  **`ver_5_hierarchy`**
     - **`variable.tf`** 파일에서 `variable value` 를 **`terraform.tfvars`** 로 분리
     - **`terraform.tfvars`** 파일을 사용하여 변수 값을 변경(재사용성) 가능하게 설정
     - **`local`** block 사용하여 **`variable`** 값 가공하여 설정
