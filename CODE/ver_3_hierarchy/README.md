@@ -10,7 +10,7 @@
 │   └── state-backend.tf
 │
 ├── 01_VPC
-│   ├── internat_gateway.tf
+│   ├── internet_gateway.tf
 │   ├── main.tf
 │   ├── nat_gateway.tf
 │   ├── output.tf
@@ -284,7 +284,7 @@ resource "aws_dynamodb_table" "this" {
 >
 > ```
 > 01_VPC
-> ├── internat_gateway.tf
+> ├── internet_gateway.tf
 > ├── main.tf
 > ├── nat_gateway.tf
 > ├── output.tf
